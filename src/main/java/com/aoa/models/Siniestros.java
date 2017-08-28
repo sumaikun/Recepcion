@@ -16,6 +16,15 @@ public class Siniestros {
 	private String placa;
 	private String declarante_celular;
 	private int estado;
+	private int no_garantia;
+	
+	public int getNo_garantia() {
+		return no_garantia;
+	}
+	
+	public void setNo_garantia(int no_garantia) {
+		this.no_garantia = no_garantia;
+	}
 	
 	public int getId() {
 		return id;

@@ -28,14 +28,23 @@
          </div>
      </div>
 </header>
-<a href="/app/TestBD"><button class="btn btn-danger form-control">Test Data Base</button></a>
-<button onclick="phpservice()" class="btn btn-warning form-control">Web service Test</button>
+<a href="/app/TestBD2"><button class="btn btn-danger form-control">Test Data Base</button></a>
+<a href="/app/Testfileservice"><button class="btn btn-warning form-control">Web service Test</button></a>
+<button class="btn btn-warning form-control" onclick="phpservice2()">Web service Test2</button>
+
 
 <script>
 	function phpservice()
 	{
 		 $.get("http://app.aoacolombia.com/Control/operativo/controllers/RecepcionController.php", function(res, sta){
 			 alert(res);
+		 });
+	}
+	
+	function phpservice2()
+	{
+		 $.post("http://app.aoacolombia.com/Control/operativo/controllers/RecepcionController.php",{check64:1}, function(res, sta){
+			 console.log(res);
 		 });
 	}
 </script>

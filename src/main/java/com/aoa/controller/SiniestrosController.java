@@ -58,6 +58,7 @@ public class SiniestrosController {
 	
 	@RequestMapping(value = "/BeginProcess", method = RequestMethod.POST)
 	public ModelAndView begin_process(@RequestParam("placa") String placa, @RequestParam("declarante_celular") String declarante_celular) throws UnknownHostException{
+				  
 		String process = "";
 		String message = "";
 		System.out.println("Los parametros que vienen del form son "+placa+" y"+declarante_celular);
@@ -100,8 +101,10 @@ public class SiniestrosController {
 				}					
 				//process = "success";
 				//message = "Siniestro encontrado con id "+s.getId();
+				
 				ModelAndView mv = new ModelAndView();
 				mv.setViewName("test_camara");
+				//System.out.println(cache.get("prueba"));
 				return mv;
 			}
 			if(s.getEstado() == 1)

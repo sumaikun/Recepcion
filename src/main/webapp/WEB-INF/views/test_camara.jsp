@@ -13,13 +13,34 @@
     	background-position:center 75px;
     	background-attachment: fixed;
 	}
+	
+	input[type=text] {
+    background-color: #3CBC8D;
+    color: white;
+	}
+	
+	input[type=number] {
+    background-color: #084B8A;
+    color: white;
+	}
+	
+	select {
+	background-color: #045FB4;
+    color: white;
+	}
+	
+	label {
+	 background-color: #2E2EFE !important;
+	 color: black !important;
+	 
+	}	
 </style>
 <br>
 <br>
 <header id="home">
 	 <div class="container">
          <div class="row">
-             <div class="col-lg-12">                 
+             <div class="col-lg-12">             	                 
                  <div class="intro-text">
                      <div id="video_div" class="col-lg-6 col-md-6 col-sm-6">
 						<video id="video"></video>	
@@ -28,57 +49,88 @@
 						<canvas id="canvas"></canvas>	
 					</div>
 					<div id="former" style="display:none;" class="col-lg-12 col-md-12 col-sm-12">
-						<div class="form-group">
-							<label class="form-control">Numero de identificación</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Lugar de expedición</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Nombres</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Apellidos</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Tipo de identificación</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Sexo</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Pais</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Ciudad domicilio</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Dirección domicilio</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Tel. oficina</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Tel. vivienda</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Celular</label>
-						</div>
-						<div class="form-group">
-							<label class="form-control">Email</label>
-						</div>
+						<form:form id="Client_form" action="create_customer_data?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">					
+							<div class="form-group">
+								<label class="form-control">Numero de identificación</label>
+								<input type="number" name="identificacion" class="form-control">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Lugar de expedición</label>
+								<input type="text" name="lugar_expedicion" class="form-control">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Nombres</label>
+								<input type="text" name="nombres" class="form-control">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Apellidos</label>
+								<input type="text" name="apellidos" class="form-control">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Tipo de identificación</label>
+								<select class="form-control" name="tipo_identificacion">
+									<option value="">Seleccione una opción</option>
+									<option value="CC">CEDULA DE CIUDADANIA</option>
+									<option value="CE">CEDULA DE EXTRANJERIA</option>
+									<option value="NIT">NIT</option>
+									<option value="PAS">PASAPORTE</option>
+									<option value="TI">TARJETA DE IDENTIDAD</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-control">Sexo</label>
+								<select class="form-control" name="sexo">
+									<option value="">Selecciona</option>
+									<option value="M">Masculino</option>
+									<option value="F">Femenino</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-control">Pais</label>
+								<input type="text" class="form-control" name="pais">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Ciudad domicilio</label>
+								<input type="number" class="form-control" name="ciudad">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Dirección domicilio</label>
+								<input type="text" class="form-control" name="dir_domicilio">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Barrio</label>
+								<input type="text" class="form-control" name="barrio">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Tel. oficina</label>
+								<input type="number" class="form-control" name="tel_oficina">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Tel. vivienda</label>
+								<input type="number" class="form-control" name="tel_vivienda">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Celular</label>
+								<input type="number" class="form-control" name="celular">
+							</div>
+							<div class="form-group">
+								<label class="form-control">Email</label>
+								<input type="email" class="form-control" name="correo">
+							</div>
+						</form:form>
 					</div>
                      <span id="text_foto" class="skills"><font color="#424242">¡Vamos a tomarnos una foto!</font></span>
                      <br>
                  	 <button id="snap_pic"  class="btn btn-primary btn-outline btn-lg" onclick="snap();"><span class="skills">TOMAR FOTO</span></button>
                  	 <button style="display:none;" id="show_button"  class="btn btn-success btn-outline btn-lg" onclick="show_form();"><span class="skills">Siguiente</span></button>	
-                 	 <button style="display:none;" id="send_button"  class="btn btn-success btn-outline btn-lg" onclick="send_data();"><span class="skills">Enviar</span></button>	
+                 	 <button style="display:none;" id="send_button"  class="btn btn-success btn-outline btn-lg" onclick="send_form();"><span class="skills">Enviar</span></button>	
                  </div>
+                 
              </div>
          </div>
      </div>
 </header> 
-
+<button onclick="php_post_file_service()" class="btn btn-warning">Test servicio web con imagen</button>
 <!--  
 <form:form id="upload-file-form" action="ajaxtest.html?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
    <label for="upload-file-input">Upload your file:</label>
@@ -151,6 +203,42 @@
 			 
 			});
 		//$.post("ajaxtest",{testpostdata:"postdata",${_csrf.parameterName}:"${_csrf.token}"}, function(data){});
+	}
+	
+	function php_post_file_service()
+	{
+		var dataURL = canvas.toDataURL("image/png");
+		var blobBin = atob(dataURL.split(',')[1]);
+		var array = [];
+		for(var i = 0; i < blobBin.length; i++) {
+		    array.push(blobBin.charCodeAt(i));
+		}
+		var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
+		
+		var formData = new FormData();
+        formData.append('image', file, "FotoArribo.png");
+        formData.append('idsiniestro', 1316868);
+		$.ajax({			 
+			  url: "http://app.aoacolombia.com/Control/operativo/controllers/RecepcionController.php",
+			  data: formData,
+			  processData : false,
+              contentType : false,
+              type : 'POST',
+              success : function(data) {
+                  alert(data);
+              },
+              error : function(err) {
+                  alert(err);
+              }
+			 
+			});
+		
+	}
+	
+	function send_form()
+	{
+		php_post_file_service();
+		document.getElementById("Client_form").submit();
 	}
 
 </script>   

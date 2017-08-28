@@ -12,4 +12,5 @@ public interface SiniestrosService {
 
 	public List<Siniestros> listsiniestros();
 	public Siniestros begin_service(String placa, String declarante_celular);
+	
 }

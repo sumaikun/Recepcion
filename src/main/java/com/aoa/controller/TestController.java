@@ -31,7 +31,7 @@ import com.aoa.models.Siniestros;
 @Controller
 public class TestController {
 	
-	@RequestMapping("/camera")
+	@RequestMapping("/Testfileservice")
 	public ModelAndView camera() {
 		System.out.println("intento generar la vista de camara");
 		String message = "Camera View";
@@ -60,6 +60,20 @@ public class TestController {
 		System.out.println(s.getNumero());
 		return new ModelAndView("home");
 	}
+	
+	@RequestMapping("/Tiposgarantia")
+	public ModelAndView TiposGarantia() {
+		
+		return new ModelAndView("tipos_garantia");
+	}
+	
+	@RequestMapping("/imagesFile")
+	public ModelAndView imagesFile() {
+		
+		return new ModelAndView("images_files");
+	}
+	
+
 	
 	@RequestMapping(value="/ajaxtest", method = RequestMethod.POST)
 	@ResponseBody

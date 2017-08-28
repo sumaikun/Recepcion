@@ -64,5 +64,17 @@
         <put-attribute name="body" value="/WEB-INF/views/resultados_volver.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
     </definition>
+    
+    <definition name="tipos_garantia" extends="base.definition"> 
+    	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
+        <put-attribute name="body" value="/WEB-INF/views/tipos_garantia.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+    </definition>
+    
+    <definition name="images_files" extends="base.definition"> 
+    	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
+        <put-attribute name="body" value="/WEB-INF/views/images_files.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+    </definition>
   
 </tiles-definitions>  
