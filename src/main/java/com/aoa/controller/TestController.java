@@ -12,6 +12,8 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,13 +25,22 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.aoa.helpers.*;
-import com.aoa.models.User;
+import com.aoa.services.CiudadService;
+import com.aoa.models.Ciudad;
 import com.aoa.models.Siniestros;
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class TestController {
+	
+	private CiudadService ciudadService;
+	
+	@Autowired(required=true)
+	@Qualifier(value="ciudadService")
+	public void setCiudadService(CiudadService cS){
+		this.ciudadService = cS;
+	}
 	
 	@RequestMapping("/Testfileservice")
 	public ModelAndView camera() {
@@ -71,6 +82,16 @@ public class TestController {
 	public ModelAndView imagesFile() {
 		
 		return new ModelAndView("images_files");
+	}
+	
+	
+	@RequestMapping("/personalForm")
+	public ModelAndView personalform() {
+		List<Ciudad> listdepartamentos = this.ciudadService.listdepartamentos();
+		 for (Object o : listdepartamentos ) { // ClassCastException?
+	            System.out.println(o);
+	        }
+		return new ModelAndView("personal_form");
 	}
 	
 

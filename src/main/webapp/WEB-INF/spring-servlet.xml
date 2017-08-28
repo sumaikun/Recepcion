@@ -74,6 +74,7 @@
 				<beans:value>com.aoa.models.Siniestros</beans:value>
 				<beans:value>com.aoa.models.Citas</beans:value>
 				<beans:value>com.aoa.models.Bitacora</beans:value>
+				<beans:value>com.aoa.models.Ciudad</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -130,6 +131,10 @@
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	
+	<beans:bean id="ciudadDao" class="com.aoa.dao.CiudadDaoImp">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
 	<beans:bean id="recepcionDao" class="com.aoa.dao.RecepcionDaoImp">
 		<beans:property name="sessionFactory" ref="Datasource2SessionFactory" />
 	</beans:bean>
@@ -164,6 +169,10 @@
 	
 	<beans:bean id="recepcionService" class="com.aoa.services.RecepcionServiceImp">
 		<beans:property name="recepcionDao" ref="recepcionDao"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="ciudadService" class="com.aoa.services.CiudadServiceImp">
+		<beans:property name="ciudadDao" ref="ciudadDao"></beans:property>
 	</beans:bean>
 	
 	<context:annotation-config />

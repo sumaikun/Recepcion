@@ -105,7 +105,10 @@ public class RecepcionController {
 			r.setIdentificacion(identificacion);
 			this.recepcionService.create(r);
 
-		}	
+		}
+		else {
+			System.out.println("ya existe el cliente");			
+		}
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("resultados_volver");
 		return mv;

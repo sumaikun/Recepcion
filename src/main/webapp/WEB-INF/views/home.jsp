@@ -2,7 +2,7 @@
 <style>
 	#home{
 		background-color: white;	
-   		background-image: url("http://localhost:8080<c:url value="/resources/theme1/images/LogoAoa.png" />")	;	
+   		background-image: url("<c:url value="/resources/theme1/images/LogoAoa.png" />")	;	
 		background-size: 95% 85%;
     	background-repeat: no-repeat;
     	background-repeat:no-repeatdisplay: compact;
@@ -28,10 +28,11 @@
          </div>
      </div>
 </header>
+<!--  
 <a href="/app/TestBD2"><button class="btn btn-danger form-control">Test Data Base</button></a>
 <a href="/app/Testfileservice"><button class="btn btn-warning form-control">Web service Test</button></a>
 <button class="btn btn-warning form-control" onclick="phpservice2()">Web service Test2</button>
-
+-->
 
 <script>
 	function phpservice()

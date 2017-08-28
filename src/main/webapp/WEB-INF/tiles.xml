@@ -6,7 +6,8 @@
     <definition name="base.definition"  
         template="/WEB-INF/views/layout/layout.jsp">  
           
-        <put-attribute name="title" value="" /><put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />  
+        <put-attribute name="title" value="" />
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />  
         <put-attribute name="menu" value="/WEB-INF/views/layout/menu.jsp" />  
         <put-attribute name="body" value="" />  
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />  
@@ -44,6 +45,12 @@
     <definition name="test_camara" extends="base.definition">
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />      	
         <put-attribute name="body" value="/WEB-INF/views/test_camara.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+    </definition>
+    
+    <definition name="personal_form" extends="base.definition">
+    	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />      	
+        <put-attribute name="body" value="/WEB-INF/views/personal_form.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
     </definition>
     

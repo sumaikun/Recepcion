@@ -130,7 +130,8 @@
          </div>
      </div>
 </header> 
-<button onclick="php_post_file_service()" class="btn btn-warning">Test servicio web con imagen</button>
+
+<!--  <button onclick="php_post_file_service()" class="btn btn-warning">Test servicio web con imagen</button>-->
 <!--  
 <form:form id="upload-file-form" action="ajaxtest.html?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
    <label for="upload-file-input">Upload your file:</label>

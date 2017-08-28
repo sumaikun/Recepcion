@@ -27,7 +27,7 @@ public class CitasDaoImp implements CitasDao {
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 		String arribo = currentTime.toString();
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Citas> citasList = session.createQuery("from Citas where siniestro = :sn")
+		List<Citas> citasList = session.createQuery("from Citas where siniestro = :sn and estado = 'P'")
 				.setParameter("sn",siniestro)				
 				.list();
 		Citas c = new Citas();		
