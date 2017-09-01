@@ -21,14 +21,21 @@ public class CiudadServiceImp implements CiudadService {
 
 	@Transactional
 	@Override
-	public List<Ciudad> listciudades() {
-		return this.ciudadDao.listciudades();
+	public List<Ciudad> listciudades(String departamento) {
+		return this.ciudadDao.listciudades(departamento);
 	}
 
 	@Transactional
 	@Override
 	public List<Ciudad> listdepartamentos() {
 		return this.ciudadDao.listdepartamentos();
+	}
+	
+	@Transactional
+	@Override
+	public Ciudad get_by_code(String ciudad) {
+		// TODO Auto-generated method stub
+		return this.ciudadDao.get_by_code(ciudad);
 	}
 	
 	

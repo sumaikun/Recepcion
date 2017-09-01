@@ -11,6 +11,7 @@ import com.aoa.models.Client;
 public interface ClientesService {
 
 	public void create(Client c);
+	public void update(Client c);
 	public Client getClientById(int id);
-	public String getClientBycode(String code);
+	public Client getClientBycode(String code);
 }

@@ -34,10 +34,14 @@ public class ClientesServiceImp implements ClientesService {
 	
 	@Transactional
 	@Override
-	public String getClientBycode(String code) {
+	public Client getClientBycode(String code) {
 		// TODO Auto-generated method stub
 		System.out.println("llegue al servicio");
 		return this.clientDao.getClientBycode(code);
+	}
+	@Override
+	public void update(Client c) {
+		this.clientDao.update(c);		
 	}
 	
 

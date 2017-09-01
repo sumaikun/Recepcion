@@ -2,6 +2,10 @@ package com.aoa.controller;
 
 import java.util.Calendar;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aoa.helpers.*;
 import com.aoa.models.Bitacora;
+import com.aoa.models.UserSession;
 import com.aoa.models.Siniestros;
 import com.aoa.services.BitacoraService;
 import com.aoa.services.CitasService;
@@ -27,6 +32,9 @@ import com.aoa.services.SiniestrosService;
 
 @Controller
 public class SiniestrosController {
+	
+	
+    private UserSession Usession;
 	
 	private SiniestrosService siniestrosService;	
 	private CitasService citasService;
@@ -52,23 +60,28 @@ public class SiniestrosController {
 	
 	
 	@RequestMapping("/IngresoGarantia")
-	public ModelAndView TestBd() {		
+	public ModelAndView TestBd(HttpSession session) {
+		String Successmessage = (String) session.getAttribute("success");
+		System.out.println("vista de garantia "+Successmessage);
 		return new ModelAndView("ingreso_garantia");
 	}
 	
 	@RequestMapping(value = "/BeginProcess", method = RequestMethod.POST)
-	public ModelAndView begin_process(@RequestParam("placa") String placa, @RequestParam("declarante_celular") String declarante_celular) throws UnknownHostException{
-				  
+	public ModelAndView begin_process(@RequestParam("placa") String placa, @RequestParam("declarante_celular") String declarante_celular,HttpSession session) throws UnknownHostException{
+		
+		
 		String process = "";
 		String message = "";
 		System.out.println("Los parametros que vienen del form son "+placa+" y"+declarante_celular);
 		Siniestros s = this.siniestrosService.begin_service(placa, declarante_celular);
+
 		if(s != null)
 		{
 			System.out.println("id del siniestro "+s.getId());
 			if(s.getEstado() == 3)
 			{
 				int cita_id = this.citasService.cita_arribo(s.getId());
+				
 				if(cita_id != 0)
 				{
 					System.out.println("aca guardo la bitacora");

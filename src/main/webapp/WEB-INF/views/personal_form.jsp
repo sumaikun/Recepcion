@@ -17,6 +17,7 @@
 <link href="<c:url value="/resources/theme1/css/specialform.css"/> " rel="stylesheet">
 <br>
 <br>
+ 
 <header id="home">
 	 <div class="container">
          <div class="row">
@@ -24,6 +25,7 @@
                  <div class="intro-text">
                     
 					<div id="former"  class="col-lg-12 col-md-12 col-sm-12">
+					
 						<div class="container-fluid bg-info" style="background: rgba(0,0,0,0);">
 						    <div class="modal-dialog">
 						      <div class="modal-content" >
@@ -31,6 +33,7 @@
 						            <button onclick="form_pos_forward()" style="background: rgba(0,0,0,0); border: none;"><h3><span class="label label-warning" id="qid">Siguiente</span> </h3></button>
 						        </div>
 						        <div class="modal-body" >
+						        	<form:form action="something" method="post" id="Client_form">
 						            <div class="col-xs-3 col-xs-offset-5">
 						               <div id="loadbar" style="display: none;">
 						                  <div class="blockG" id="rotateG_01"></div>
@@ -43,18 +46,14 @@
 						                  <div class="blockG" id="rotateG_08"></div>
 						              </div>
 						          </div>
-						
+								 
 						          <div class="quiz" id="quiz" data-toggle="buttons">
-							          <!--  <div>
-								           <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="1">1 One</label>
-								           <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="2">2 Two</label>
-								           <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="3">3 Three</label>
-								           <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="4">4 Four</label>
-						       	  	  </div> -->
+						          
+							       								 						       	
 						       	  	  <div id="formcontent0">
 							       	  	  	<div class="form-group">
 												<label class="form-control">Tipo de identificación</label>
-												<select class="form-control" name="tipo_identificacion">
+												<select class="form-control" name="tipo_identificacion" required>
 													<option value="">Seleccione una opción</option>
 													<option value="CC">CEDULA DE CIUDADANIA</option>
 													<option value="CE">CEDULA DE EXTRANJERIA</option>
@@ -65,7 +64,7 @@
 											</div>
 							       	  	  	<div class="form-group">
 												<label class="form-control">Numero de identificación</label>
-												<input type="number" name="identificacion" class="form-control num">
+												<input type="number" name="identificacion" class="form-control num" required>
 											</div>
 											<div class="form-group">
 												<label class="form-control">Lugar de expedición</label>
@@ -93,22 +92,54 @@
 						       	  	  <div id="formcontent2" style="display:none;">
 						       	  	  		<div class="form-group">
 												<label class="form-control">Departamento</label>
-												<input type="number" class="form-control" name="departamento">
+												<select  class="form-control" name="departamento">
+													<option>Selecciona</option>
+													<c:forEach items="${listdepartamentos}" var="departamento">			
+														<option value="${departamento}">${departamento}</option>							
+													</c:forEach>
+												</select>
 											</div>
 						       	  	  		<div class="form-group">
 												<label class="form-control">Ciudad domicilio</label>
-												<input type="number" class="form-control" name="ciudad">
+												<input class="form-control keyboard" id="ciudad"  name="ciudad" list="ciudades">  
+												<datalist  id="ciudades">												
+													
+												</datalist>
+												<input type="hidden" name="codigo_ciudad" value="none">
 											</div>
-											<div class="form-group">
+											<div onmouseover="check_city()" class="form-group">
 												<label class="form-control">Dirección domicilio</label>
-												<input type="text" class="form-control keyboard" name="dir_domicilio">
+												<input type="text" class="form-control keyboard"  name="dir_domicilio">
 											</div>
-											<div class="form-group">
+											<div onmouseover="check_city()" class="form-group">
 												<label class="form-control">Barrio</label>
 												<input type="text" class="form-control keyboard" name="barrio">
 											</div>
-							          </div>	
-						       	  </div>
+							          </div>
+							          <div id="formcontent3" style="display:none;">
+						       	  	  		<div class="form-group">
+												<label class="form-control">Tel. oficina</label>
+												<input type="number" class="form-control num" name="tel_oficina">
+											</div>
+											<div class="form-group">
+												<label class="form-control">Tel. vivienda</label>
+												<input type="number" class="form-control num" name="tel_vivienda">
+											</div>
+											<div class="form-group">
+												<label class="form-control">Celular</label>
+												<input type="number" class="form-control num" name="celular">
+											</div>
+											<div class="form-group">
+												<label class="form-control">Email</label>
+												<input type="email" class="form-control" name="correo">
+											</div>
+											<div class="form-group">												
+												<input type="submit"  class="btn btn-success" onclick="send_form()" value="enviar y terminar">
+											</div>
+							          </div>
+							          	
+						       	  </div>						       	   	
+							       	 </form:form>						       	  
 						   		</div>
 								    <div class="modal-footer text-muted" style="text-align:center;">
 								    	<button onclick="form_pos_backward()" style="background: rgba(0,0,0,0); border: none;"><h3><span class="label label-warning" id="qid">Anterior</span> </h3></button>								    	
@@ -162,9 +193,11 @@ $(function(){
 
 function form_pos_forward()
 {
-	$("#formcontent"+pos).hide();
-	pos = pos +1;
-	$("#formcontent"+pos).show();
+	if(pos < 3){
+		$("#formcontent"+pos).hide();
+		pos = pos +1;
+		$("#formcontent"+pos).show();
+	}
 }
 
 function form_pos_backward()
@@ -193,7 +226,79 @@ $( document ).ready(function() {
 	});
 });
 
+$("select[name='departamento']" ).change(function() {
+	$('#ciudades').empty();
+	$('input[name="ciudad"]').val("");
+	$.post("get_ciudades",{departamento:$("select[name='departamento']" ).val(),${_csrf.parameterName}:"${_csrf.token}"}, function(data){
+	
+		$.each(data,function() {
+            cityOption = "<option  data-value='"+this.codigo+"' value='"+this.nombre+"' \>" + this.codigo + "</option>";
+            $('#ciudades').append(cityOption);
+        });
+	});
+});
 
+$("input[name='identificacion']" ).change(function() {
+	$.post("get_user_info",{documento:$("input[name='identificacion']" ).val(),${_csrf.parameterName}:"${_csrf.token}"}, function(data){
+		if(data!=null)
+			{
+				$.post("get_by_code",{codigo:data.ciudad,${_csrf.parameterName}:"${_csrf.token}"},
+						function(data){
+					$("select[name='departamento']").val(data.departamento);
+					$("input[name='ciudad']").val(data.nombre);
+				});
+				console.log("in");
+				$("select[name='tipo_identificacion']").val(data.tipo_id);
+				$("input[name='identificacion']").val(data.identificacion);
+				$("input[name='lugar_expedicion']").val(data.lugar_expdoc);
+				$("select[name='sexo']").val(data.sexo);
+				$("input[name='nombres']").val(data.nombre);
+				$("input[name='apellidos']").val(data.apellido);
+				$("select[name='departamento']").val(data.departamento);
+				$("input[name='codigo_ciudad']").val(data.ciudad);
+				$("input[name='dir_domicilio']").val(data.direccion);
+				$("input[name='barrio']").val(data.barrio);
+				$("input[name='tel_oficina']").val(data.telefono_oficina);
+				$("input[name='tel_vivienda']").val(data.telefono_casa);
+				$("input[name='celular']").val(data.celular);
+				$("input[name='correo']").val(data.email_e);
+			}
+	});
+});
+
+function check_city()
+{
+	//console.log("checked");	
+	var code = $("#ciudad").val();
+	if(code != "")
+	{
+		console.log(code);
+		var danecode = $("#ciudades [value='"+code+"']").data('value');
+		if (danecode == undefined && $("input[name='codigo_ciudad']").val() == "none" ) {
+		    alert("el nombre de la ciudad no es valido");
+		    $("#ciudad").focus();
+		}else{
+			console.log(danecode);
+			$("input[name='codigo_ciudad']").val(danecode);
+			}
+		
+	}
+	
+}
+
+function send_form()
+{
+	if($("select[name='tipo_identificacion']").val() == "")
+	{
+		alert("Debe seleccionar un tipo de identificación");
+	}
+	
+	if($("select[name='identificacion']").val() == "")
+	{
+		alert("ponga un numero de identificación");
+	}
+	//document.getElementById("Client_form").submit();
+}
 </script>
 		
 

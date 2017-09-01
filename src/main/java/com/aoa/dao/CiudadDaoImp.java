@@ -21,17 +21,41 @@ public class CiudadDaoImp implements CiudadDao{
 	}
 
 	@Override
-	public List<Ciudad> listciudades() {
+	public List<Ciudad> listciudades(String departamento) {
 		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Ciudad> listciudades = session.createQuery(" from Ciudad where departamento = :depar order by nombre")
+		.setParameter("depar", departamento)
+		.list();
+		return listciudades;
 	}
 
 	@Override
 	public List<Ciudad> listdepartamentos() {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Ciudad> listdepartamentos = session.createQuery("select distinct departamento from Ciudad")
+		List<Ciudad> listdepartamentos = session.createQuery("select distinct departamento from Ciudad order by departamento")
 		.list();
 		return listdepartamentos;
+	}
+
+	@Override
+	public Ciudad get_by_code(String ciudad) {
+		String codigo;
+		Ciudad c = null;
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Ciudad> ciudades = session.createQuery(" from Ciudad where codigo =:citycode")
+		.setParameter("citycode", ciudad)
+		.list();
+		if(ciudades.size()==0)
+		{
+			codigo = null;
+			System.out.println("no se encuentra el resultado");
+		}
+		else {
+			c = ciudades.get(0);
+		}
+		
+		return c;
 	}
 	
 	

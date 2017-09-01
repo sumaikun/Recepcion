@@ -63,7 +63,7 @@ public class RecepcionController {
 	,@RequestParam("apellidos") String apellidos
 	,@RequestParam("tipo_identificacion") String tipo_identificacion
 	,@RequestParam("pais") String pais
-	,@RequestParam("ciudad") String ciudad
+	,@RequestParam("codigo_ciudad") String ciudad
 	,@RequestParam("barrio") String barrio
 	,@RequestParam("dir_domicilio") String dir_domicilio
 	,@RequestParam("tel_oficina") String tel_oficina
@@ -73,45 +73,56 @@ public class RecepcionController {
 	,@RequestParam("sexo") String sexo)
 	 {
 		System.out.println("llegue al controller");
-		String val;
+		Object val;
 		val = this.clientesService.getClientBycode(identificacion);
+		Client c = new Client();
+		c.setNombre(nombres);
+		c.setApellido(apellidos);
+		c.setTipo_id(tipo_identificacion);
+		c.setIdentificacion(identificacion);
+		c.setLugar_expdoc(lugar_expedicion);
+		c.setPais("CO");
+		c.setCiudad(ciudad);
+		c.setDireccion(dir_domicilio);
+		c.setBarrio(barrio);
+		c.setTelefono_oficina(tel_oficina);
+		c.setTelefono_casa(tel_vivienda);
+		c.setCelular(celular);
+		c.setEmail_e(correo);
+		c.setSexo(sexo);
+		
+		Recepcion r = new Recepcion();
+		r.setNombre("nombres");
+		r.setApellido("apellidos");
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		String arribo = currentTime.toString();
+		r.setFecha(arribo);
+		r.setDescripcion("Autoservicio recepcion");
+		r.setRegistrado_por("Java_app");
+		r.setVisitado(1);
+		r.setIdentificacion(identificacion);
+		
 		if (val == null)
-		{
-			Client c = new Client();
-			c.setNombre(nombres);
-			c.setApellido(apellidos);
-			c.setTipo_id(tipo_identificacion);
-			c.setIdentificacion(identificacion);
-			c.setLugar_expdoc(lugar_expedicion);
-			c.setPais("CO");
-			c.setCiudad("50001000");
-			c.setDireccion(dir_domicilio);
-			c.setBarrio(barrio);
-			c.setTelefono_oficina(tel_oficina);
-			c.setTelefono_casa(tel_vivienda);
-			c.setCelular(celular);
-			c.setEmail_e("correo");
-			c.setSexo(sexo);
-			this.clientesService.create(c);
-			Recepcion r = new Recepcion();
-			r.setNombre("nombres");
-			r.setApellido("apellidos");
-			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-			String arribo = currentTime.toString();
-			r.setFecha(arribo);
-			r.setDescripcion("Autoservicio recepcion");
-			r.setRegistrado_por("Java_app");
-			r.setVisitado(1);
-			r.setIdentificacion(identificacion);
+		{			
+			this.clientesService.create(c);			
 			this.recepcionService.create(r);
-
 		}
 		else {
-			System.out.println("ya existe el cliente");			
+			System.out.println("ya existe el cliente");
+			this.clientesService.update(c);	
 		}
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("resultados_volver");
 		return mv;
+	}
+	
+	@RequestMapping(value="/get_user_info", method = RequestMethod.POST)
+	@ResponseBody
+	public Client get_user_info(@RequestParam("documento") String documento) {
+		System.out.println(documento);
+		Object val;
+		val = this.clientesService.getClientBycode(documento);
+		return (Client) val;
 	}
 	
 

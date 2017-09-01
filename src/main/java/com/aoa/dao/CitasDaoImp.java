@@ -32,6 +32,7 @@ public class CitasDaoImp implements CitasDao {
 				.list();
 		Citas c = new Citas();		
 		c = citasList.get(0);
+		System.out.println("id cita "+c.getId());
 		System.out.println("arribo "+c.getArribo());
 		if(c.getArribo() == null)
 		{	

@@ -18,6 +18,23 @@ public class Recepcion {
 	private String registrado_por;
 	private String descripcion;
 	private String foto_f;
+	private int cita;
+	private int siniestro;
+	
+	
+	public int getCita() {
+		return cita;
+	}
+	public void setCita(int cita) {
+		this.cita = cita;
+	}
+	public int getSiniestro() {
+		return siniestro;
+	}
+	public void setSiniestro(int siniestro) {
+		this.siniestro = siniestro;
+	}
+	
 	
 	public int getId() {
 		return id;

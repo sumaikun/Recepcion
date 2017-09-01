@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,13 +89,35 @@ public class TestController {
 	
 	@RequestMapping("/personalForm")
 	public ModelAndView personalform() {
+		ModelAndView mv = new ModelAndView();
 		List<Ciudad> listdepartamentos = this.ciudadService.listdepartamentos();
 		 for (Object o : listdepartamentos ) { // ClassCastException?
 	            System.out.println(o);
 	        }
-		return new ModelAndView("personal_form");
+		 mv.setViewName("personal_form");
+		 mv.addObject("listdepartamentos",listdepartamentos);
+		return mv;
 	}
 	
+	@RequestMapping(value="/get_ciudades", method = RequestMethod.POST)
+	@ResponseBody
+	public List<Ciudad> get_cities(@RequestParam("departamento") String departamento) {
+		List<Ciudad> ciudades = this.ciudadService.listciudades(departamento);
+		 /*for (Ciudad c : ciudades ) { // ClassCastException?
+	            System.out.println(c.getNombre());
+	        }*/	
+		 return ciudades;
+	}	
+
+	@RequestMapping(value="/get_by_code", method = RequestMethod.POST)
+	@ResponseBody
+	public Ciudad get_by_code(@RequestParam("codigo") String citycode) {
+		Ciudad c = this.ciudadService.get_by_code(citycode);
+		 /*for (Ciudad c : ciudades ) { // ClassCastException?
+	            System.out.println(c.getNombre());
+	        }*/	
+		 return c;
+	}
 
 	
 	@RequestMapping(value="/ajaxtest", method = RequestMethod.POST)

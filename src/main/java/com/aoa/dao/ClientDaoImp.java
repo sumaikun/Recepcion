@@ -33,7 +33,7 @@ public class ClientDaoImp implements ClientDao{
 		return c;
 	}
 	@Override
-	public String getClientBycode(String code) {
+	public Client getClientBycode(String code) {
         Client c = new Client();
         String string ;
         Session session = this.sessionFactory.getCurrentSession();
@@ -45,14 +45,19 @@ public class ClientDaoImp implements ClientDao{
 		if(clientList.size()==0)
 		{			
 			System.out.println("no se encuentra el resultado");
-			string = null;
+			c = null;
 		}
 		else {
 			c = clientList.get(0);
 			string = c.getIdentificacion();
 		}	
 		
-		return string;
+		return c;
+	}
+	@Override
+	public void update(Client c) {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.update(c);
 	}
 	
 	

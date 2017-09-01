@@ -1,6 +1,7 @@
  <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:beans="http://www.springframework.org/schema/beans"
@@ -75,6 +76,7 @@
 				<beans:value>com.aoa.models.Citas</beans:value>
 				<beans:value>com.aoa.models.Bitacora</beans:value>
 				<beans:value>com.aoa.models.Ciudad</beans:value>
+				<beans:value>com.aoa.models.Autorizacion</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -139,6 +141,10 @@
 		<beans:property name="sessionFactory" ref="Datasource2SessionFactory" />
 	</beans:bean>
 	
+	<beans:bean id="autorizacionDao" class="com.aoa.dao.AutorizacionDaoImp">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
 	<beans:bean id="userService" class="com.aoa.services.UserServiceImp">
 		<beans:property name="userDao" ref="userDao"></beans:property>
 	</beans:bean>
@@ -175,6 +181,10 @@
 		<beans:property name="ciudadDao" ref="ciudadDao"></beans:property>
 	</beans:bean>
 	
+	<beans:bean id="autorizacionService" class="com.aoa.services.AutorizacionServiceImp">
+		<beans:property name="autorizacionDao" ref="autorizacionDao"></beans:property>
+	</beans:bean>
+	
 	<context:annotation-config />
 	<context:component-scan base-package="com.aoa.controller" />
 	<tx:annotation-driven transaction-manager="transactionManager"/>
@@ -190,6 +200,9 @@
 		<beans:constructor-arg value="12" />
 	</beans:bean>
 	
-
+	<!-- fakesession -->
+	<bean id="session"    class="com.aoa.models.UserSession" scope="session">         
+      
+     </bean> 
 	
 </beans>
