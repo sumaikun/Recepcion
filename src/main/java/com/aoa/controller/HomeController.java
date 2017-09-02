@@ -33,6 +33,7 @@ public class HomeController {
 	public ModelAndView helloWorld2(HttpSession session) {
 		String Successmessage = (String) session.getAttribute("success");
 		System.out.println("intento generar la vista inicial "+Successmessage);
+		
 		String message = "Hello World, Spring MVC @ Javatpoint";
 		return new ModelAndView("hello", "message", message);
 	}

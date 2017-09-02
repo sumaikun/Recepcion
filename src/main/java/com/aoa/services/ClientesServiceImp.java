@@ -39,6 +39,8 @@ public class ClientesServiceImp implements ClientesService {
 		System.out.println("llegue al servicio");
 		return this.clientDao.getClientBycode(code);
 	}
+	
+	@Transactional
 	@Override
 	public void update(Client c) {
 		this.clientDao.update(c);		

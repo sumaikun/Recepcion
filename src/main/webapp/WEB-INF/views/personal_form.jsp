@@ -33,7 +33,7 @@
 						            <button onclick="form_pos_forward()" style="background: rgba(0,0,0,0); border: none;"><h3><span class="label label-warning" id="qid">Siguiente</span> </h3></button>
 						        </div>
 						        <div class="modal-body" >
-						        	<form:form action="something" method="post" id="Client_form">
+						        	<form:form action="create_customer_data" method="post" id="Client_form" >
 						            <div class="col-xs-3 col-xs-offset-5">
 						               <div id="loadbar" style="display: none;">
 						                  <div class="blockG" id="rotateG_01"></div>
@@ -68,7 +68,7 @@
 											</div>
 											<div class="form-group">
 												<label class="form-control">Lugar de expedición</label>
-												<input type="text" name="lugar_expedicion" class="form-control keyboard">
+												<input type="text" name="lugar_expedicion" class="form-control keyboard" required>
 											</div>
 							          </div>
 						       	  	  <div id="formcontent1" style="display:none;">
@@ -133,12 +133,13 @@
 												<label class="form-control">Email</label>
 												<input type="email" class="form-control" name="correo">
 											</div>
-											<div class="form-group">												
-												<input type="submit"  class="btn btn-success" onclick="send_form()" value="enviar y terminar">
-											</div>
+											
 							          </div>
 							          	
-						       	  </div>						       	   	
+						       	  </div>	
+						       	  		<div class="form-group">												
+												<input type="submit"  class="btn btn-success" onclick="send_form()" value="enviar y terminar">
+										</div>				       	   	
 							       	 </form:form>						       	  
 						   		</div>
 								    <div class="modal-footer text-muted" style="text-align:center;">
@@ -229,7 +230,7 @@ $( document ).ready(function() {
 $("select[name='departamento']" ).change(function() {
 	$('#ciudades').empty();
 	$('input[name="ciudad"]').val("");
-	$.post("get_ciudades",{departamento:$("select[name='departamento']" ).val(),${_csrf.parameterName}:"${_csrf.token}"}, function(data){
+	$.post("get_ciudades",{departamento:$("select[name='departamento']").val(),"${_csrf.parameterName}":"${_csrf.token}"}, function(data){
 	
 		$.each(data,function() {
             cityOption = "<option  data-value='"+this.codigo+"' value='"+this.nombre+"' \>" + this.codigo + "</option>";
@@ -239,10 +240,10 @@ $("select[name='departamento']" ).change(function() {
 });
 
 $("input[name='identificacion']" ).change(function() {
-	$.post("get_user_info",{documento:$("input[name='identificacion']" ).val(),${_csrf.parameterName}:"${_csrf.token}"}, function(data){
+	$.post("get_user_info",{documento:$("input[name='identificacion']" ).val(),"${_csrf.parameterName}":"${_csrf.token}"}, function(data){
 		if(data!=null)
 			{
-				$.post("get_by_code",{codigo:data.ciudad,${_csrf.parameterName}:"${_csrf.token}"},
+				$.post("get_by_code",{codigo:data.ciudad,"${_csrf.parameterName}":"${_csrf.token}"},
 						function(data){
 					$("select[name='departamento']").val(data.departamento);
 					$("input[name='ciudad']").val(data.nombre);
@@ -290,12 +291,47 @@ function send_form()
 {
 	if($("select[name='tipo_identificacion']").val() == "")
 	{
-		alert("Debe seleccionar un tipo de identificación");
+		return alert("Debe seleccionar un tipo de identificación");
 	}
 	
 	if($("select[name='identificacion']").val() == "")
 	{
-		alert("ponga un numero de identificación");
+		return alert("ponga un numero de identificación");
+	}
+	
+	if($("input[name='lugar_expedicion']").val() == "")
+	{
+		return alert("Ingrese el lugar de expedición de la cedula");
+	}	
+	
+	if($("select[name='sexo']").val() == "")
+	{
+		return alert("Seleccione su sexo");
+	}
+	
+	if($("input[name='nombres']").val() == "")
+	{
+		return alert("Escriba sus nombres");
+	}
+	
+	if($("input[name='apellidos']").val() == "")
+	{
+		return alert("Escriba sus apellidos");
+	}
+	
+	if($("input[name='codigo_ciudad']").val() == "none")
+	{
+		return alert("Ingrese la ciudad en la que vive");
+	}
+	
+	if($("input[name='dir_domicilio']").val() == "none")
+	{
+		return alert("Ingrese su dirección de domicilio");
+	}
+	
+	if($("input[name='celular']").val() == "none")
+	{
+		return alert("Ingrese un numero celular");
 	}
 	//document.getElementById("Client_form").submit();
 }

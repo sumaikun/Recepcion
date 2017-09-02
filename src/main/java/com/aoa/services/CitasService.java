@@ -10,6 +10,6 @@ import com.aoa.models.User;
 
 @Service
 public interface CitasService {
-	public int cita_arribo(int siniestro);
+	public Citas cita_arribo(int siniestro);
 	void update(Citas c);
 }

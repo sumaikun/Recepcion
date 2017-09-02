@@ -24,6 +24,19 @@ public class AutorizacionServiceImp implements AutorizacionService {
 	public void create(Autorizacion a) {	
 		this.autorizacionDao.create(a);
 	}
+
+	@Transactional
+	@Override
+	public Autorizacion get_by_siniester(String siniestro) {
+		// TODO Auto-generated method stub
+		return this.autorizacionDao.get_by_siniester(siniestro);
+	}
+
+	@Transactional
+	@Override
+	public void update(Autorizacion a) {
+		this.autorizacionDao.update(a);		
+	}
 	
 
 	

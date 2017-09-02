@@ -23,9 +23,7 @@ public class CitasDaoImp implements CitasDao {
 	}
 	
 	@Override
-	public int cita_arribo(int siniestro) {
-		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-		String arribo = currentTime.toString();
+	public Citas cita_arribo(int siniestro) {			
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Citas> citasList = session.createQuery("from Citas where siniestro = :sn and estado = 'P'")
 				.setParameter("sn",siniestro)				
@@ -34,16 +32,7 @@ public class CitasDaoImp implements CitasDao {
 		c = citasList.get(0);
 		System.out.println("id cita "+c.getId());
 		System.out.println("arribo "+c.getArribo());
-		if(c.getArribo() == null)
-		{	
-			c.setArribo(arribo);
-			System.out.println("id de la cita "+c.getId());
-			this.update(c);
-			return c.getId();		
-		}
-		else {
-			return 0;
-		}
+		return c;
 		
 		
 		

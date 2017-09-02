@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aoa.helpers.*;
 import com.aoa.models.Bitacora;
-import com.aoa.models.UserSession;
+import com.aoa.models.Citas;
 import com.aoa.models.Siniestros;
 import com.aoa.services.BitacoraService;
 import com.aoa.services.CitasService;
@@ -34,7 +34,7 @@ import com.aoa.services.SiniestrosService;
 public class SiniestrosController {
 	
 	
-    private UserSession Usession;
+
 	
 	private SiniestrosService siniestrosService;	
 	private CitasService citasService;
@@ -73,17 +73,25 @@ public class SiniestrosController {
 		String process = "";
 		String message = "";
 		System.out.println("Los parametros que vienen del form son "+placa+" y"+declarante_celular);
-		Siniestros s = this.siniestrosService.begin_service(placa, declarante_celular);
-
+		Siniestros s = this.siniestrosService.begin_service(placa, declarante_celular);		
 		if(s != null)
 		{
+			session.setAttribute("id_siniestro" , s.getId());
 			System.out.println("id del siniestro "+s.getId());
 			if(s.getEstado() == 3)
 			{
-				int cita_id = this.citasService.cita_arribo(s.getId());
+				Citas c = this.citasService.cita_arribo(s.getId());				
 				
-				if(cita_id != 0)
-				{
+				session.setAttribute("id_cita" , c.getId());
+				
+				if(c.getArribo() == null)
+				{	
+					Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
+					String arribo = currentTime.toString();
+					c.setArribo(arribo);
+					session.setAttribute("arribo" , arribo);
+					System.out.println("id de la cita "+c.getId());
+					this.citasService.update(c);
 					System.out.println("aca guardo la bitacora");
 					int year = Calendar.getInstance().get(Calendar.YEAR);
 					int month = Calendar.getInstance().get(Calendar.MONTH);
@@ -103,20 +111,21 @@ public class SiniestrosController {
 					b.setNombre("Java_user");
 					b.setTabla("cita_servicio");
 					b.setAccion("M");
-					b.setRegistro(cita_id);
+					b.setRegistro(c.getId());
 					InetAddress IP=InetAddress.getLocalHost();
 					b.setIp(IP.toString());
 					b.setDetalle("Marca arribo asegurado"); 
-					this.bitacoraService.create(b);				
-				}
+					this.bitacoraService.create(b);			
+				}				
 				else {
+					session.setAttribute("arribo" , c.getArribo());
 					System.out.println("ya existe el arribo");
 				}					
 				//process = "success";
 				//message = "Siniestro encontrado con id "+s.getId();
 				
 				ModelAndView mv = new ModelAndView();
-				mv.setViewName("test_camara");
+				mv.setViewName("camara");
 				//System.out.println(cache.get("prueba"));
 				return mv;
 			}

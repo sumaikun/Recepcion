@@ -48,6 +48,12 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
     </definition>
     
+    <definition name="camara" extends="base.definition">
+    	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />      	
+        <put-attribute name="body" value="/WEB-INF/views/camara.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+    </definition>
+    
     <definition name="personal_form" extends="base.definition">
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />      	
         <put-attribute name="body" value="/WEB-INF/views/personal_form.jsp" />

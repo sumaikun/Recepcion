@@ -29,10 +29,23 @@ public class RecepcionServiceImp implements RecepcionService {
 		return r;
 	}
 
+	@Transactional
 	@Override
 	public void create(Recepcion r) {
 		this.recepcionDao.create(r);
 		
+	}
+
+	@Transactional
+	@Override
+	public Recepcion get_by_code(String code, int cita) {
+		return this.recepcionDao.get_by_code(code,cita);
+	}
+
+	@Transactional
+	@Override
+	public void update(Recepcion r) {
+		this.recepcionDao.update(r);		
 	}
 	
 

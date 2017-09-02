@@ -23,8 +23,33 @@ public class AutorizacionDaoImp implements AutorizacionDao {
 	
 	@Override
 	public void create(Autorizacion a) {
-		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.getCurrentSession();
+		session.persist(a);
+	}
+
+	@Override
+	public Autorizacion get_by_siniester(String siniestro) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Autorizacion a = new Autorizacion();
+		int siniestroid = Integer.parseInt(siniestro);
+		List<Autorizacion> listautorizacion = session.createQuery("from Autorizacion where siniestro = :sid")
+				.setParameter("sid", siniestroid)
+				.list();
+		if(listautorizacion.size()>0)
+		{
+			a = listautorizacion.get(0);			
+		}
+		else {
+			a = null;
+		}
 		
+		return a;
+	}
+
+	@Override
+	public void update(Autorizacion a) {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.update(a);
 	}
 	
 

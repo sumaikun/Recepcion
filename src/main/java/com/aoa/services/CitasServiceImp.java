@@ -23,7 +23,7 @@ public class CitasServiceImp implements CitasService {
 
 	@Transactional
 	@Override
-	public int cita_arribo(int siniestro) {
+	public Citas cita_arribo(int siniestro) {
 		return this.citasDao.cita_arribo(siniestro);		
 		
 	}

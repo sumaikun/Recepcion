@@ -53,7 +53,7 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-number">Numero de Tarjeta</label>
 		        <div class="col-sm-9">
-		          <input type="number" maxlength="10" class="form-control num" name="card-number" id="card-number" placeholder="Numero de tarjeta">
+		          <input type="number" maxlength="10" class="form-control num" name="numero_tarjeta" id="card-number" placeholder="Numero de tarjeta">
 		        </div>
 		      </div>
 		      <div class="form-group">
@@ -61,7 +61,7 @@
 		        <div class="col-sm-9">
 		          <div class="row">
 		            <div class="col-xs-3">
-		              <select class="form-control col-sm-2" name="expiry-month" id="expiry-month">
+		              <select class="form-control col-sm-2" name="month_expi" id="expiry-month">
 		                <option>Month</option>
 		                <option value="01">Ene (01)</option>
 		                <option value="02">Feb (02)</option>
@@ -78,7 +78,7 @@
 		              </select>
 		            </div>
 		            <div class="col-xs-3">
-		              <select class="form-control" name="expiry-year">
+		              <select class="form-control" name="year_expi">
 		                <option value="13">2013</option>
 		                <option value="14">2014</option>
 		                <option value="15">2015</option>
@@ -133,13 +133,13 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
 		        <div class="col-sm-9">
-		          <input type="number" class="form-control num" name="card-holder-name" id="card-holder-name" placeholder="Comprobante de consignación">
+		          <input type="number" class="form-control num" name="comprobante_consignacion" id="card-holder-name" placeholder="Comprobante de consignación">
 		        </div>
 		      </div>
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-number">Fecha de consignación</label>
 		        <div class="col-sm-9">
-		          <input class="form-control" type="date">
+		          <input class="form-control" name="fecha_consignacion" type="date">
 		        </div>
 		      </div>		     
 		    </fieldset>
@@ -171,13 +171,13 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
 		        <div class="col-sm-9">
-		          <input type="number" class="form-control num" name="card-holder-name" id="card-holder-name" placeholder="Comprobante de consignación">
+		          <input type="number" class="form-control num" name="riesgo_consignacion" id="card-holder-name" placeholder="Comprobante de consignación">
 		        </div>
 		      </div>
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-number">Fecha de consignación</label>
 		        <div class="col-sm-9">
-		          <input class="form-control" type="date">
+		          <input class="form-control" name="riesgo_fecha" type="date">
 		        </div>
 		      </div>		     
 		    </fieldset>
@@ -209,7 +209,7 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Número de cuenta bancaria</label>
 		        <div class="col-sm-9">
-		          <input type="number" class="form-control num" name="card-holder-name" id="card-holder-name" placeholder="Número de cuenta sin separadores">
+		          <input type="number" class="form-control num" name="devol_cuenta_bancaria" id="card-holder-name" placeholder="Número de cuenta sin separadores">
 		        </div>
 		      </div>
 		      <div class="form-group">
@@ -262,20 +262,20 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Nombre del titular</label>
 		        <div class="col-sm-9">
-		          <input type="text" class="form-control keyboard" name="card-holder-name"  placeholder="Nombre del titular">
+		          <input type="text" class="form-control keyboard" name="devol_nombre_titular"  placeholder="Nombre del titular">
 		        </div>
 		      </div>
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Identificación</label>
 		        <div class="col-sm-9">
-		          <input type="number" class="form-control num" name="card-holder-name" id="card-holder-name" placeholder="Número de cuenta sin separadores">
+		          <input type="number" class="form-control num" name="devol_iden_titular" id="card-holder-name" placeholder="Número de cuenta sin separadores">
 		        </div>
 		      </div>			     
 		    </fieldset>
 		  </form>
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-success">Enviar información</button>
+      	<button type="button" onclick="finish_finan_data()" class="btn btn-success">Enviar información</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -284,6 +284,8 @@
 </div>
 
 <script>
+var tipo_garantia;
+
 $( document ).ready(function() {
 	 $('.keyboard').keyboard({
 			layout : 'spanish-qwerty',
@@ -301,8 +303,58 @@ $( document ).ready(function() {
 });
 
 function devoluciones(tipo)
-{
-	
+{	
 	$("#myModal4").modal('show');
+	tipo_garantia = tipo;
+}
+
+function finish_finan_data()
+{
+	if(tipo_garantia == "credito")
+	{
+		 $.post("garantia_credito",{
+			 "${_csrf.parameterName}":"${_csrf.token}",
+			 numero_tarjeta:$("input[name='numero_tarjeta']").val(),
+			 month_expi:$("input[name='month_expi']").val(),
+			 year_expi:$("input[name='year_expi']").val(),
+			 cvv:$("input[name='cvv']").val(),
+			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
+			 devol_banco:$("input[name='devol_banco']").val(),
+			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val()
+			 }, function(res, sta){
+			 console.log(res);
+		 });
+	}
+	
+	if(tipo_garantia == "efectivo")
+	{
+		 $.post("garantia_efectivo",{
+			 "${_csrf.parameterName}":"${_csrf.token}",
+			 comprobante_consignacion:$("input[name='comprobante_consignacion']").val(),
+			 fecha_consignacion:$("input[name='fecha_consignacion']").val(),
+			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
+			 devol_banco:$("input[name='devol_banco']").val(),
+			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val()
+			 }, function(res, sta){
+			 console.log(res);
+		 });
+	}
+	
+	if(tipo_garantia == "riesgo")
+	{
+		 $.post("garantia_riesgo",{
+			 "${_csrf.parameterName}":"${_csrf.token}",
+			 comprobante_consignacion:$("input[name='riesgo_consignacion']").val(),
+			 fecha_consignacion:$("input[name='riesgo_fecha']").val(),
+			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
+			 devol_banco:$("input[name='devol_banco']").val(),
+			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val()
+			 }, function(res, sta){
+			 console.log(res);
+		 });
+	}
 }
 </script>

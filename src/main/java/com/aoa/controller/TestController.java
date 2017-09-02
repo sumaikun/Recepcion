@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,12 +89,22 @@ public class TestController {
 	
 	
 	@RequestMapping("/personalForm")
-	public ModelAndView personalform() {
+	public ModelAndView personalform(HttpSession session) {
+		System.out.println("foto url "+session.getAttribute("photo_url"));
 		ModelAndView mv = new ModelAndView();
+		//session.invalidate();
+		System.out.println("id_siniestro "+session.getAttribute("id_siniestro"));
+		if(session.getAttribute("id_siniestro") == null) {
+			mv.setViewName("resultados_volver");
+			mv.addObject("process", "fail");
+			mv.addObject("prevurl", "home");
+			mv.addObject("message", "Ingreso no autorizado");
+			return mv;
+		}
 		List<Ciudad> listdepartamentos = this.ciudadService.listdepartamentos();
-		 for (Object o : listdepartamentos ) { // ClassCastException?
+		 /*for (Object o : listdepartamentos ) { // ClassCastException?
 	            System.out.println(o);
-	        }
+	        }*/
 		 mv.setViewName("personal_form");
 		 mv.addObject("listdepartamentos",listdepartamentos);
 		return mv;
@@ -137,6 +148,14 @@ public class TestController {
         String filePath = ApplicationPath + orgName;
         File dest = new File(filePath);
         file.transferTo(dest);
+		return "got it";
+	}
+	
+	@RequestMapping(value="/set_photo_url", method = RequestMethod.POST)
+	@ResponseBody
+	public String set_photo_url(HttpSession session) throws IOException {
+		String photourl = "ingreso_recepcion/Autoservicio/"+session.getAttribute("id_siniestro")+"/FotoArribo_"+session.getAttribute("id_siniestro")+".png";
+		session.setAttribute("photo_url", photourl);
 		return "got it";
 	}
 	

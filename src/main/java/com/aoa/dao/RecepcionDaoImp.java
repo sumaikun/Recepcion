@@ -34,6 +34,28 @@ public class RecepcionDaoImp implements RecepcionDao{
 		Session session = this.sessionFactory.getCurrentSession();
 		session.persist(r);
 	}
+	@Override
+	public Recepcion get_by_code(String code, int cita) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Recepcion r = new Recepcion();
+		List<Recepcion> listrecepcion = session.createQuery("from Recepcion where identificacion = :code and cita = :cita")
+				.setParameter("code", code)
+				.setParameter("cita", cita)
+				.list();
+		if(listrecepcion.size() > 0)
+		{
+			r = listrecepcion.get(0);
+		}
+		else {
+			r = null;
+		}
+		return r;
+	}
+	@Override
+	public void update(Recepcion r) {
+		Session session = this.sessionFactory.getCurrentSession();
+		session.update(r);		
+	}
 
 	
 	

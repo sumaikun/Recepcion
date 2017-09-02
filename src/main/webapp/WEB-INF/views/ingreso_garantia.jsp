@@ -31,9 +31,9 @@
                  	<form:form action="${addAction}" method="POST">
 	                     <span class="name" ><font color="#424242">CAPTURA INFORMACION DE GARANTIA</font></span>
 	                 	 <label><span class="skills"><font color="#424242">Placa Vehiculo Siniestrado</font></span></label>
-	                 	 <input class="form-control" id="keyboard" type="text" name="placa" required>
+	                 	 <input class="form-control" id="keyboard" type="text" name="placa" autocomplete="off" required>
 	                 	 <label><span class="skills"><font color="#424242">Telefono registrado</font></span></label>
-	                 	 <input class="form-control" id="num" type="number" name="declarante_celular" required>
+	                 	 <input class="form-control" id="num" type="number" name="declarante_celular" autocomplete="off" required>
 	                 	 <button class="btn btn-primary btn-outline btn-lg"><span class="skills">CONTINUAR</span></span></button>	
                  	</form:form>
                  </div>
