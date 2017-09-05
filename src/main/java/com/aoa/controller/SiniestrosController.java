@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aoa.helpers.*;
@@ -67,7 +68,7 @@ public class SiniestrosController {
 	}
 	
 	@RequestMapping(value = "/BeginProcess", method = RequestMethod.POST)
-	public ModelAndView begin_process(@RequestParam("placa") String placa, @RequestParam("declarante_celular") String declarante_celular,HttpSession session) throws UnknownHostException{
+	public @ResponseBody ModelAndView begin_process(@RequestParam("placa") String placa, @RequestParam("declarante_celular") String declarante_celular,HttpSession session) throws UnknownHostException{
 		
 		
 		String process = "";
@@ -76,13 +77,26 @@ public class SiniestrosController {
 		Siniestros s = this.siniestrosService.begin_service(placa, declarante_celular);		
 		if(s != null)
 		{
-			session.setAttribute("id_siniestro" , s.getId());
+			session.setAttribute("id_siniestro" , s.getId());			
+			
 			System.out.println("id del siniestro "+s.getId());
 			if(s.getEstado() == 3)
 			{
 				Citas c = this.citasService.cita_arribo(s.getId());				
 				
+				if(c.getId() == 0)
+				{
+					ModelAndView mv = new ModelAndView();
+					mv.setViewName("resultados_volver");
+					mv.addObject("process", "fail");
+					mv.addObject("prevurl", "home");
+					mv.addObject("message", "Error 700 ¡No hay cita pendiente! porfavor comuniquese con recepción");
+					return mv;
+				}
+				
 				session.setAttribute("id_cita" , c.getId());
+				session.setAttribute("usuario_oficina" , c.getOficina());
+				session.setAttribute("usuario_aseguradora" , s.getAseguradora());
 				
 				if(c.getArribo() == null)
 				{	

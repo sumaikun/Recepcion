@@ -241,8 +241,9 @@ $("select[name='departamento']" ).change(function() {
 
 $("input[name='identificacion']" ).change(function() {
 	$.post("get_user_info",{documento:$("input[name='identificacion']" ).val(),"${_csrf.parameterName}":"${_csrf.token}"}, function(data){
-		if(data!=null)
+		if(data!="")
 			{
+				
 				$.post("get_by_code",{codigo:data.ciudad,"${_csrf.parameterName}":"${_csrf.token}"},
 						function(data){
 					$("select[name='departamento']").val(data.departamento);

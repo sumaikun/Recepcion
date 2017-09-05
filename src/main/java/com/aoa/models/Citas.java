@@ -10,9 +10,17 @@ public class Citas {
 	@Id
 	@Column(name="id")	
 	private int id;	
+
 	private int siniestro;	
 	private String arribo;
+	private int oficina;
 	
+	public int getOficina() {
+		return oficina;
+	}
+	public void setOficina(int oficina) {
+		this.oficina = oficina;
+	}
 	public int getId() {
 		return id;
 	}
@@ -30,6 +38,10 @@ public class Citas {
 	}
 	public void setArribo(String arribo) {
 		this.arribo = arribo;
+	}
+	
+	public void setSiniestro(int siniestro) {
+		this.siniestro = siniestro;
 	}
 	
 }

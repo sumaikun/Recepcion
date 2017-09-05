@@ -29,7 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.aoa.helpers.*;
 import com.aoa.services.CiudadService;
+import com.aoa.services.FranquiciasServiceImp;
 import com.aoa.models.Ciudad;
+import com.aoa.models.Franquicia;
 import com.aoa.models.Siniestros;
 /**
  * Handles requests for the application home page.
@@ -38,6 +40,7 @@ import com.aoa.models.Siniestros;
 public class TestController {
 	
 	private CiudadService ciudadService;
+	private FranquiciasServiceImp franquiciasService;
 	
 	@Autowired(required=true)
 	@Qualifier(value="ciudadService")
@@ -45,11 +48,24 @@ public class TestController {
 		this.ciudadService = cS;
 	}
 	
+	@Autowired(required=true)
+	@Qualifier(value="franquiciasService")
+	public void setFranquiciasService(FranquiciasServiceImp fS){
+		this.franquiciasService = fS;
+	}
+	
 	@RequestMapping("/Testfileservice")
 	public ModelAndView camera() {
 		System.out.println("intento generar la vista de camara");
 		String message = "Camera View";
 		return new ModelAndView("test_camara", "message", message);
+	}
+	
+	@RequestMapping("/DocumentosScaner")
+	public ModelAndView documentos_scaner() {
+		System.out.println("intento generar la vista de documentos");
+		String message = "Scanner View";
+		return new ModelAndView("documentos_scaner", "message", message);
 	}
 	
 	@RequestMapping("/scanner")
@@ -76,8 +92,10 @@ public class TestController {
 	}
 	
 	@RequestMapping("/Tiposgarantia")
-	public ModelAndView TiposGarantia() {
-		
+	public ModelAndView TiposGarantia(HttpSession session) {
+		int oficina = (int) session.getAttribute("usuario_oficina");
+		String aseguradora = (String) session.getAttribute("usuario_aseguradora");
+		List<Franquicia> franquicias = this.franquiciasService.get_franquicias(oficina, aseguradora);
 		return new ModelAndView("tipos_garantia");
 	}
 	

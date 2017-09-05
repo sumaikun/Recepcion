@@ -17,7 +17,8 @@ public class Siniestros {
 	private String declarante_celular;
 	private int estado;
 	private int no_garantia;
-	
+	private int aseguradora;	
+
 	public int getNo_garantia() {
 		return no_garantia;
 	}
@@ -56,6 +57,14 @@ public class Siniestros {
 	}
 	public void setEstado(int estado) {
 		this.estado = estado;
+	}
+	
+	public int getAseguradora() {
+		return aseguradora;
+	}
+
+	public void setAseguradora(int aseguradora) {
+		this.aseguradora = aseguradora;
 	}
 	
 }

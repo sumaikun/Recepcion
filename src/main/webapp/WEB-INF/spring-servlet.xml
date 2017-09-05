@@ -77,6 +77,9 @@
 				<beans:value>com.aoa.models.Bitacora</beans:value>
 				<beans:value>com.aoa.models.Ciudad</beans:value>
 				<beans:value>com.aoa.models.Autorizacion</beans:value>
+				<beans:value>com.aoa.models.Aseguradoras</beans:value>
+				<beans:value>com.aoa.models.Ciudadfranq</beans:value>
+				<beans:value>com.aoa.models.Franquicia</beans:value>
 			</beans:list>
 		</beans:property>
 		<beans:property name="hibernateProperties">
@@ -145,6 +148,18 @@
 		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
 	
+	<beans:bean id="aseguradorasDao" class="com.aoa.dao.AseguradorasDaoImp">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="franquiciasDao" class="com.aoa.dao.FranquiciasDaoImp">
+		<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	</beans:bean>
+	
+	<beans:bean id="franquiciasService" class="com.aoa.services.FranquiciasServiceImp">
+		<beans:property name="franquiciasDao" ref="franquiciasDao"></beans:property>
+	</beans:bean>
+	
 	<beans:bean id="userService" class="com.aoa.services.UserServiceImp">
 		<beans:property name="userDao" ref="userDao"></beans:property>
 	</beans:bean>
@@ -183,6 +198,10 @@
 	
 	<beans:bean id="autorizacionService" class="com.aoa.services.AutorizacionServiceImp">
 		<beans:property name="autorizacionDao" ref="autorizacionDao"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="aseguradorasService" class="com.aoa.services.AseguradorasServiceImp">
+		<beans:property name="aseguradorasDao" ref="aseguradorasDao"></beans:property>
 	</beans:bean>
 	
 	<context:annotation-config />

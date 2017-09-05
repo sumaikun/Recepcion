@@ -84,6 +84,12 @@
         <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
     </definition>
     
+    <definition name="documentos_scaner" extends="base.definition"> 
+    	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
+        <put-attribute name="body" value="/WEB-INF/views/documentos_scaner.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+    </definition>
+    
     <definition name="images_files" extends="base.definition"> 
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
         <put-attribute name="body" value="/WEB-INF/views/images_files.jsp" />

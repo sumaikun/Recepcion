@@ -26,10 +26,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aoa.helpers.*;
+import com.aoa.models.Aseguradoras;
+import com.aoa.models.Autorizacion;
 import com.aoa.models.Client;
+import com.aoa.models.Franquicia;
 import com.aoa.models.Recepcion;
+import com.aoa.services.AseguradorasService;
 import com.aoa.services.AutorizacionService;
 import com.aoa.services.ClientesService;
+import com.aoa.services.FranquiciasServiceImp;
 import com.aoa.services.RecepcionService;
 
 
@@ -39,7 +44,8 @@ public class RecepcionController {
 	private RecepcionService recepcionService;
 	private ClientesService clientesService;
 	private AutorizacionService autorizacionService;
-	
+	private AseguradorasService aseguradorasService;
+	private FranquiciasServiceImp franquiciasService;
 	
 	@Autowired(required=true)
 	@Qualifier(value="recepcionService")
@@ -57,6 +63,18 @@ public class RecepcionController {
 	@Qualifier(value="autorizacionService")
 	public void setAutorizacionService(AutorizacionService aS){
 		this.autorizacionService = aS;
+	}
+	
+	@Autowired(required=true)
+	@Qualifier(value="aseguradorasService")
+	public void setAseguradorasService(AseguradorasService asS){
+		this.aseguradorasService = asS;
+	}
+	
+	@Autowired(required=true)
+	@Qualifier(value="franquiciasService")
+	public void setFranquiciasService(FranquiciasServiceImp fS){
+		this.franquiciasService = fS;
 	}
 	
 	@RequestMapping(value="/TestBD2")
@@ -116,6 +134,10 @@ public class RecepcionController {
 		c.setEmail_e(correo);
 		c.setSexo(sexo);
 		
+		session.setAttribute("nombre_usuario", c.getNombre()+c.getApellido());
+		session.setAttribute("usuario_identificacion", c.getIdentificacion());
+		session.setAttribute("correo", c.getEmail_e());
+		
 		Recepcion r = new Recepcion();
 		r.setNombre("nombres");
 		r.setApellido("apellidos");
@@ -153,6 +175,26 @@ public class RecepcionController {
 			this.recepcionService.update(r);	
 		}	
 		
+		int oficina = (int) session.getAttribute("usuario_oficina");
+		int aseguradoraint = (int) session.getAttribute("usuario_aseguradora");
+		String aseguradora = String.valueOf(aseguradoraint);
+		List<Franquicia> franquicias = this.franquiciasService.get_franquicias(oficina, aseguradora);
+		
+		for(Franquicia f : franquicias)
+		{
+			System.out.println("franquicia "+f.getNombre());
+		}
+		
+		if(franquicias.size()<1)
+		{
+			mv.setViewName("resultados_volver");
+			mv.addObject("process", "fail");
+			mv.addObject("prevurl", "home");
+			mv.addObject("message", "Error 701 porfavor comuniquese con recepción");
+			return mv;
+		}
+		
+		mv.addObject("franquicias",franquicias);
 		mv.setViewName("tipos_garantia");
 		return mv;
 	}
@@ -168,25 +210,159 @@ public class RecepcionController {
 	
 	@RequestMapping(value="/garantia_efectivo", method = RequestMethod.POST)
 	@ResponseBody
-	public String garantia_efectivo(HttpSession session) {
-		String siniestro = (String) session.getAttribute("id_siniestro");
-		Object val = this.autorizacionService.get_by_siniester(siniestro);
+	public String garantia_efectivo(HttpSession session
+			,@RequestParam("comprobante_consignacion") String comprobante_consignacion
+			,@RequestParam("fecha_consignacion") String fecha_consignacion
+			,@RequestParam("devol_cuenta_bancaria") String devol_cuenta_bancaria
+			,@RequestParam("devol_tipo_cuenta") String devol_tipo_cuenta
+			,@RequestParam("devol_banco") String devol_banco
+			,@RequestParam("devol_nombre_titular") String devol_nombre_titular	
+			,@RequestParam("devol_iden_titular") String devol_iden_titular) {
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
+		String now = currentTime.toString();
+		int siniestro = (int) session.getAttribute("id_siniestro");
+		Object val = this.autorizacionService.get_by_siniester(String.valueOf(siniestro));
+		Autorizacion au = new Autorizacion();
+		au.setSiniestro((int) session.getAttribute("id_siniestro"));
+		au.setNombre((String) session.getAttribute("nombre_usuario"));
+		au.setIdentificacion((String) session.getAttribute("usuario_identificacion"));
+		au.setFecha_consignacion(fecha_consignacion);
+		au.setNumero_consignacion(comprobante_consignacion);
+		au.setFranquicia("6");
+		au.setFecha_solicitud(now);
+		au.setSolicitado_por("autoservicio AOA");
+		au.setEstado("E");
+		
+		Aseguradoras as = new Aseguradoras();
+		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));		
+		int valor_congelamiento = Integer.parseInt(as.getGarantia());
+		
+		au.setValor(String.valueOf(valor_congelamiento));
+		au.setEmail((String) session.getAttribute("correo"));
+		au.setDevol_tipo_cuenta(devol_tipo_cuenta);
+		au.setDevol_cuenta_banco(devol_cuenta_bancaria);
+		au.setBanco(Integer.parseInt(devol_banco));
+		au.setDevol_ncuenta(devol_nombre_titular);
+		au.setIdentificacion_devol(devol_iden_titular);
+		au.setFormulario_web("2");
+		
+		if(val == null) {
+			this.autorizacionService.create(au);
+		}
+		else {
+			Autorizacion pass = (Autorizacion) val;
+			au.setId(pass.getId());
+			this.autorizacionService.update(au);
+		}
+		
 		return "got it";		
 	}
 	
 	@RequestMapping(value="/garantia_credito", method = RequestMethod.POST)
 	@ResponseBody
-	public String garantia_credito(HttpSession session) {
+	public String garantia_credito(HttpSession session
+			,@RequestParam("numero_tarjeta") String numero_tarjeta
+			,@RequestParam("month_expi") String month_expi
+			,@RequestParam("banco") String banco
+			,@RequestParam("franquicia") String franquicia
+			,@RequestParam("year_expi") String year_expi
+			,@RequestParam("cvv") String cvv
+			,@RequestParam("devol_tipo_cuenta") String devol_tipo_cuenta
+			,@RequestParam("devol_cuenta_bancaria") String devol_cuenta_bancaria	
+			,@RequestParam("devol_banco") String devol_banco
+			,@RequestParam("devol_nombre_titular") String devol_nombre_titular
+			,@RequestParam("devol_iden_titular") String devol_iden_titular) {
 		int siniestro = (int) session.getAttribute("id_siniestro");
 		String siniestrotext = String.valueOf(siniestro);
 		Object val = this.autorizacionService.get_by_siniester(siniestrotext);
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
+		String now = currentTime.toString();		
+		Autorizacion au = new Autorizacion();
+		au.setSiniestro((int) session.getAttribute("id_siniestro"));
+		au.setNombre((String) session.getAttribute("nombre_usuario"));
+		au.setIdentificacion((String) session.getAttribute("usuario_identificacion"));
+		au.setNumero(numero_tarjeta);
+		au.setFranquicia(franquicia);
+		au.setBanco(Integer.parseInt(banco));
+		au.setVencimiento_mes(month_expi);
+		au.setVencimiento_ano(year_expi);
+		au.setCodigo_seguridad(cvv);
+		au.setFecha_solicitud(now);
+		au.setSolicitado_por("autoservicio AOA");
+		au.setEstado("E");
+		
+		Aseguradoras as = new Aseguradoras();
+		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));		
+		int valor_congelamiento = Integer.parseInt(as.getGarantia());
+		
+		au.setValor(String.valueOf(valor_congelamiento));
+		au.setEmail((String) session.getAttribute("correo"));
+		au.setDevol_tipo_cuenta(devol_tipo_cuenta);
+		au.setDevol_cuenta_banco(devol_cuenta_bancaria);
+		au.setBanco(Integer.parseInt(devol_banco));
+		au.setDevol_ncuenta(devol_nombre_titular);
+		au.setIdentificacion_devol(devol_iden_titular);
+		au.setFormulario_web("2");
+		
+		if(val == null) {
+			this.autorizacionService.create(au);
+		}
+		else {
+			Autorizacion pass = (Autorizacion) val;
+			au.setId(pass.getId());
+			this.autorizacionService.update(au);		
+		}
 		return "got it";
 	}
 	
 	@RequestMapping(value="/garantia_riesgo", method = RequestMethod.POST)
 	@ResponseBody
-	public String garantia_riesgo(HttpSession session) {
+	public String garantia_riesgo(HttpSession session
+			,@RequestParam("comprobante_consignacion") String comprobante_consignacion
+			,@RequestParam("fecha_consignacion") String fecha_consignacion
+			,@RequestParam("devol_tipo_cuenta") String devol_tipo_cuenta
+			,@RequestParam("devol_cuenta_bancaria") String devol_cuenta_bancaria
+			,@RequestParam("devol_banco") String devol_banco
+			,@RequestParam("devol_nombre_titular") String devol_nombre_titular	
+			,@RequestParam("devol_iden_titular") String devol_iden_titular) {
+		int siniestro = (int) session.getAttribute("id_siniestro");
+		String siniestrotext = String.valueOf(siniestro);
+		Object val = this.autorizacionService.get_by_siniester(siniestrotext);
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
+		String now = currentTime.toString();		
 		
+		Autorizacion au = new Autorizacion();
+		au.setSiniestro((int) session.getAttribute("id_siniestro"));
+		au.setNombre((String) session.getAttribute("nombre_usuario"));
+		au.setIdentificacion((String) session.getAttribute("usuario_identificacion"));
+		au.setFecha_consignacion(fecha_consignacion);
+		au.setNumero_consignacion(comprobante_consignacion);
+		au.setFranquicia("6");
+		au.setFecha_solicitud(now);
+		au.setSolicitado_por("autoservicio AOA");
+		au.setEstado("E");
+		
+		Aseguradoras as = new Aseguradoras();
+		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));		
+		int valor_congelamiento = Integer.parseInt(as.getGarantia());
+		
+		au.setValor(String.valueOf(valor_congelamiento));
+		au.setEmail((String) session.getAttribute("correo"));
+		au.setDevol_tipo_cuenta(devol_tipo_cuenta);
+		au.setDevol_cuenta_banco(devol_cuenta_bancaria);
+		au.setBanco(Integer.parseInt(devol_banco));
+		au.setDevol_ncuenta(devol_nombre_titular);
+		au.setIdentificacion_devol(devol_iden_titular);
+		au.setFormulario_web("2");
+		
+		if(val == null) {
+			this.autorizacionService.create(au);
+		}
+		else {
+			Autorizacion pass = (Autorizacion) val;
+			au.setId(pass.getId());
+			this.autorizacionService.update(au);		
+		}
 		return "got it";
 	}
 	
