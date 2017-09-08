@@ -155,6 +155,13 @@ public class Autorizacion {
 	public void setFormulario_web(String formulario_web) {
 		this.formulario_web = formulario_web;
 	}
+	public String getConsignacion_f() {
+		return consignacion_f;
+	}
+	public void setConsignacion_f(String consignacion_f) {
+		this.consignacion_f = consignacion_f;
+	}
+	
 	private int Siniestro;
 	private String nombre;
 	private String identificacion;
@@ -178,5 +185,8 @@ public class Autorizacion {
 	private String devol_ncuenta;
 	private String identificacion_devol;
 	private String formulario_web;
+	private String consignacion_f;
+
+	
 		
 }

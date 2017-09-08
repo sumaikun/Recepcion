@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
@@ -98,7 +99,7 @@ public class RecepcionController {
 	,@RequestParam("celular") String celular
 	,@RequestParam("correo") String correo
 	,@RequestParam("sexo") String sexo
-	,HttpSession session)	
+	,HttpSession session) throws UnknownHostException	
 	 {
 		ModelAndView mv = new ModelAndView();
 		
@@ -112,6 +113,7 @@ public class RecepcionController {
 		}
 		
 		//System.out.println("llegue al controller");
+		String ipprivate = Inet4Address.getLocalHost().getHostAddress();
 		Object val;
 		val = this.clientesService.getClientBycode(identificacion);
 		Object val2;
@@ -183,8 +185,18 @@ public class RecepcionController {
 		for(Franquicia f : franquicias)
 		{
 			System.out.println("franquicia "+f.getNombre());
+			
+			if(oficina == 1 && f.getId() == "10")
+			{
+				this.autorizacion_extra(session);
+				mv.setViewName("documentos_scaner");
+				mv.addObject("Siniestroid", siniestro);
+				mv.addObject("Privateip", ipprivate);				
+				return mv;
+			}
 		}
 		
+				
 		if(franquicias.size()<1)
 		{
 			mv.setViewName("resultados_volver");
@@ -194,9 +206,79 @@ public class RecepcionController {
 			return mv;
 		}
 		
-		mv.addObject("franquicias",franquicias);
-		mv.setViewName("tipos_garantia");
+		int siniestro1 = (int) session.getAttribute("id_siniestro");
+		Object val1 = this.autorizacionService.get_by_siniester(String.valueOf(siniestro1));
+		
+		Aseguradoras as = new Aseguradoras();
+		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));
+		session.setAttribute("nombre_aseguradora", as.getNombre());
+		session.setAttribute("identificacion_aseguradora", as.getNit());
+		System.out.println("pide autorización: "+as.getPide_autorizacion());
+		
+		if(val1 != null && as.getPide_autorizacion() == 1) {
+			System.out.println("ya existe autorización");
+			
+			Autorizacion Au = (Autorizacion) val1;
+			String estado = Au.getEstado();
+			
+			System.out.println("franquicia "+Au.getFranquicia());
+			System.out.println("estado "+Au.getEstado());
+			System.out.println("archivo "+Au.getConsignacion_f());			
+			
+			if(Integer.parseInt(Au.getFranquicia()) == 6)
+			{
+				session.setAttribute("img_consignacion", 1);
+				
+				
+			}
+			else {
+				session.setAttribute("img_consignacion", null);
+			}
+			
+			mv.setViewName("documentos_scaner");
+			mv.addObject("Privateip", ipprivate);
+			mv.addObject("Siniestroid", siniestro);
+			return mv;
+			
+			/*if(estado == "R")
+			{
+				mv.addObject("franquicias",franquicias);
+				mv.addObject("valor_efectivo",as.getGarantia_consignada());
+				mv.addObject("valor_riesgo",as.getValor_no_reembols());
+				mv.addObject("valor_credito",as.getGarantia());
+				mv.setViewName("tipos_garantia");
+				return mv;
+			}			
+			
+			
+			if(estado == "E")
+			{
+				//if de si ya tiene documentos
+				mv.setViewName("documentos_scaner");
+				mv.addObject("Privateip", ipprivate);
+				mv.addObject("Siniestroid", siniestro);
+				return mv;
+			}*/
+			
+		}
+		else {
+			if(as.getPide_autorizacion() == 1)
+			{
+				mv.addObject("franquicias",franquicias);
+				mv.addObject("valor_efectivo",as.getGarantia_consignada());
+				mv.addObject("valor_riesgo",as.getValor_no_reembols());
+				mv.addObject("valor_credito",as.getGarantia());
+				mv.setViewName("tipos_garantia");
+				return mv;
+			}
+		}
+		
+		this.autorizacion_extra(session);
+		mv.setViewName("documentos_scaner");
+		mv.addObject("Privateip", ipprivate);
+		mv.addObject("Siniestroid", siniestro);
 		return mv;
+		
 	}
 	
 	@RequestMapping(value="/get_user_info", method = RequestMethod.POST)
@@ -217,10 +299,14 @@ public class RecepcionController {
 			,@RequestParam("devol_tipo_cuenta") String devol_tipo_cuenta
 			,@RequestParam("devol_banco") String devol_banco
 			,@RequestParam("devol_nombre_titular") String devol_nombre_titular	
-			,@RequestParam("devol_iden_titular") String devol_iden_titular) {
+			,@RequestParam("devol_iden_titular") String devol_iden_titular
+			,@RequestParam("valor_congelamiento") int valor_congelamiento) {
+		session.setAttribute("img_consignacion", 1);
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
 		String now = currentTime.toString();
 		int siniestro = (int) session.getAttribute("id_siniestro");
+		if(siniestro == 0)
+		{ return "finish";}
 		Object val = this.autorizacionService.get_by_siniester(String.valueOf(siniestro));
 		Autorizacion au = new Autorizacion();
 		au.setSiniestro((int) session.getAttribute("id_siniestro"));
@@ -231,11 +317,8 @@ public class RecepcionController {
 		au.setFranquicia("6");
 		au.setFecha_solicitud(now);
 		au.setSolicitado_por("autoservicio AOA");
-		au.setEstado("E");
-		
-		Aseguradoras as = new Aseguradoras();
-		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));		
-		int valor_congelamiento = Integer.parseInt(as.getGarantia());
+		au.setEstado("E");	
+	
 		
 		au.setValor(String.valueOf(valor_congelamiento));
 		au.setEmail((String) session.getAttribute("correo"));
@@ -254,7 +337,6 @@ public class RecepcionController {
 			au.setId(pass.getId());
 			this.autorizacionService.update(au);
 		}
-		
 		return "got it";		
 	}
 	
@@ -271,8 +353,13 @@ public class RecepcionController {
 			,@RequestParam("devol_cuenta_bancaria") String devol_cuenta_bancaria	
 			,@RequestParam("devol_banco") String devol_banco
 			,@RequestParam("devol_nombre_titular") String devol_nombre_titular
+			,@RequestParam("valor_congelamiento") int valor_congelamiento
 			,@RequestParam("devol_iden_titular") String devol_iden_titular) {
+		
+		session.setAttribute("img_credito", 1);		
 		int siniestro = (int) session.getAttribute("id_siniestro");
+		if(siniestro == 0)
+		{ return "finish";}
 		String siniestrotext = String.valueOf(siniestro);
 		Object val = this.autorizacionService.get_by_siniester(siniestrotext);
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
@@ -290,10 +377,6 @@ public class RecepcionController {
 		au.setFecha_solicitud(now);
 		au.setSolicitado_por("autoservicio AOA");
 		au.setEstado("E");
-		
-		Aseguradoras as = new Aseguradoras();
-		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));		
-		int valor_congelamiento = Integer.parseInt(as.getGarantia());
 		
 		au.setValor(String.valueOf(valor_congelamiento));
 		au.setEmail((String) session.getAttribute("correo"));
@@ -324,8 +407,12 @@ public class RecepcionController {
 			,@RequestParam("devol_cuenta_bancaria") String devol_cuenta_bancaria
 			,@RequestParam("devol_banco") String devol_banco
 			,@RequestParam("devol_nombre_titular") String devol_nombre_titular	
-			,@RequestParam("devol_iden_titular") String devol_iden_titular) {
+			,@RequestParam("devol_iden_titular") String devol_iden_titular
+			,@RequestParam("valor_congelamiento") int valor_congelamiento) {
+		session.setAttribute("img_consignacion", 1);
 		int siniestro = (int) session.getAttribute("id_siniestro");
+		if(siniestro == 0)
+		{ return "finish";}
 		String siniestrotext = String.valueOf(siniestro);
 		Object val = this.autorizacionService.get_by_siniester(siniestrotext);
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
@@ -340,11 +427,8 @@ public class RecepcionController {
 		au.setFranquicia("6");
 		au.setFecha_solicitud(now);
 		au.setSolicitado_por("autoservicio AOA");
-		au.setEstado("E");
-		
-		Aseguradoras as = new Aseguradoras();
-		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));		
-		int valor_congelamiento = Integer.parseInt(as.getGarantia());
+		au.setEstado("E");	
+
 		
 		au.setValor(String.valueOf(valor_congelamiento));
 		au.setEmail((String) session.getAttribute("correo"));
@@ -353,7 +437,8 @@ public class RecepcionController {
 		au.setBanco(Integer.parseInt(devol_banco));
 		au.setDevol_ncuenta(devol_nombre_titular);
 		au.setIdentificacion_devol(devol_iden_titular);
-		au.setFormulario_web("2");
+		au.setFormulario_web("2");		
+		
 		
 		if(val == null) {
 			this.autorizacionService.create(au);
@@ -363,7 +448,45 @@ public class RecepcionController {
 			au.setId(pass.getId());
 			this.autorizacionService.update(au);		
 		}
+		
 		return "got it";
+	}
+	
+	public void autorizacion_extra(HttpSession session)
+	{
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
+		String now = currentTime.toString();
+		int siniestro = (int) session.getAttribute("id_siniestro");
+		Object val = this.autorizacionService.get_by_siniester(String.valueOf(siniestro));
+		Autorizacion au = new Autorizacion();
+		au.setSiniestro((int) session.getAttribute("id_siniestro"));
+		au.setNombre((String) session.getAttribute("nombre_aseguradora"));
+		au.setIdentificacion((String) session.getAttribute("identificacion_aseguradora"));
+
+		au.setFranquicia("10");
+		au.setFecha_solicitud(now);
+		au.setSolicitado_por("autoservicio AOA");
+		au.setEstado("E");	
+	
+		
+		au.setValor(String.valueOf("0"));
+		
+		au.setDevol_tipo_cuenta("");
+		au.setDevol_cuenta_banco("");
+		au.setBanco(Integer.parseInt("0"));
+		au.setDevol_ncuenta("");
+		au.setIdentificacion_devol("0");
+		
+		au.setFormulario_web("2");
+		
+		if(val == null) {
+			this.autorizacionService.create(au);
+		}
+		else {
+			Autorizacion pass = (Autorizacion) val;
+			au.setId(pass.getId());
+			this.autorizacionService.update(au);
+		}		
 	}
 	
 

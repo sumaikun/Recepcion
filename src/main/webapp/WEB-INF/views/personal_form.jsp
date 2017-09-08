@@ -33,7 +33,7 @@
 						            <button onclick="form_pos_forward()" style="background: rgba(0,0,0,0); border: none;"><h3><span class="label label-warning" id="qid">Siguiente</span> </h3></button>
 						        </div>
 						        <div class="modal-body" >
-						        	<form:form action="create_customer_data" method="post" id="Client_form" >
+						        	<form:form action="create_customer_data" onsubmit="return send_form()" method="post" id="Client_form" >
 						            <div class="col-xs-3 col-xs-offset-5">
 						               <div id="loadbar" style="display: none;">
 						                  <div class="blockG" id="rotateG_01"></div>
@@ -138,7 +138,7 @@
 							          	
 						       	  </div>	
 						       	  		<div class="form-group">												
-												<input type="submit"  class="btn btn-success" onclick="send_form()" value="enviar y terminar">
+												<input type="submit" onclick="send_form()" class="btn btn-success"  value="enviar y terminar">
 										</div>				       	   	
 							       	 </form:form>						       	  
 						   		</div>
@@ -157,6 +157,52 @@
          </div>
      </div>
 </header> 
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">      
+      <div class="modal-body">
+      	<br>
+        <p style="text-align:center;">¿Es usted la persona que va a constituir la garantia?</p>
+        <br>
+        <br>
+        <div style="text-align:center;">
+        	<button data-dismiss="modal" style="width:95px !important; margin-right:25px;" class="btn btn-lg btn-danger">Si</button>
+        	<button onclick="validate2()"  data-dismiss="modal" style="width:95px !important; " class="btn btn-lg btn-primary">No</button>
+        </div>
+      </div>      
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">      
+      <div class="modal-body">
+      	<br>
+        <p style="text-align:center;">Esta información debe ser diligenciada por la persona que va a constituir la garantia siendo:</p>
+        <ul>
+        	<li>Los datos del asegurado.</li>
+        	<li>Los datos del tarjetahabiente (si aplica).</li>        	
+        </ul>
+        <p style="text-align:center;">La información suministrada sera la utlizada durante este proceso.</p>
+        <br>
+        <br>
+        <div style="text-align:center;">
+        	<button data-dismiss="modal"  class="btn btn-lg btn-danger">Continuar</button>        	
+        </div>
+      </div>      
+    </div>
+
+  </div>
+</div>
 
 <script>
 var pos = 0;
@@ -212,6 +258,8 @@ function form_pos_backward()
 }
 
 $( document ).ready(function() {
+	 present_intro();
+	 
 	 $('.keyboard').keyboard({
 			layout : 'spanish-qwerty',
 			restrictInput : true, 
@@ -226,6 +274,16 @@ $( document ).ready(function() {
 		autoAccept : true
 	});
 });
+
+function present_intro()
+{
+	$("#myModal").modal('show');
+}
+
+function validate2()
+{
+	$("#myModal2").modal('show');
+}
 
 $("select[name='departamento']" ).change(function() {
 	$('#ciudades').empty();
@@ -290,51 +348,68 @@ function check_city()
 
 function send_form()
 {
+	event.preventDefault();
+	
+	console.log("find "+$("select[name='tipo_identificacion']").val() );
+	
 	if($("select[name='tipo_identificacion']").val() == "")
 	{
-		return alert("Debe seleccionar un tipo de identificación");
+		alert("Debe seleccionar un tipo de identificación");
+		return false;
 	}
 	
 	if($("select[name='identificacion']").val() == "")
 	{
-		return alert("ponga un numero de identificación");
+		alert("ponga un numero de identificación");
+		return false;
 	}
 	
 	if($("input[name='lugar_expedicion']").val() == "")
 	{
-		return alert("Ingrese el lugar de expedición de la cedula");
+		alert("Ingrese el lugar de expedición de la cedula");
+		return false;
 	}	
 	
 	if($("select[name='sexo']").val() == "")
 	{
-		return alert("Seleccione su sexo");
+		alert("Seleccione su sexo");
+		return false;
 	}
 	
 	if($("input[name='nombres']").val() == "")
 	{
-		return alert("Escriba sus nombres");
+		alert("Escriba sus nombres");
+		return false;
 	}
 	
 	if($("input[name='apellidos']").val() == "")
 	{
-		return alert("Escriba sus apellidos");
+		alert("Escriba sus apellidos");
+		return false;
 	}
 	
 	if($("input[name='codigo_ciudad']").val() == "none")
 	{
-		return alert("Ingrese la ciudad en la que vive");
+		alert("Ingrese la ciudad en la que vive");
+		return false;
 	}
 	
-	if($("input[name='dir_domicilio']").val() == "none")
+	if($("input[name='dir_domicilio']").val() == "")
 	{
-		return alert("Ingrese su dirección de domicilio");
+		alert("Ingrese su dirección de domicilio");
+		return false;
 	}
 	
-	if($("input[name='celular']").val() == "none")
+	if($("input[name='celular']").val() == "")
 	{
-		return alert("Ingrese un numero celular");
+		alert("Ingrese un numero celular");
+		return false;
 	}
-	//document.getElementById("Client_form").submit();
+	
+	document.getElementById("Client_form").submit();
+	return true;
+	//
+	
 }
 </script>
 		

@@ -32,7 +32,7 @@ public class AutorizacionDaoImp implements AutorizacionDao {
 		Session session = this.sessionFactory.getCurrentSession();
 		Autorizacion a = new Autorizacion();
 		int siniestroid = Integer.parseInt(siniestro);
-		List<Autorizacion> listautorizacion = session.createQuery("from Autorizacion where siniestro = :sid")
+		List<Autorizacion> listautorizacion = session.createQuery("from Autorizacion where siniestro = :sid and estado != 'R' ")
 				.setParameter("sid", siniestroid)
 				.list();
 		if(listautorizacion.size()>0)

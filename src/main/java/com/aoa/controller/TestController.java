@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
@@ -28,8 +30,10 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import com.aoa.helpers.*;
+import com.aoa.services.AutorizacionService;
 import com.aoa.services.CiudadService;
 import com.aoa.services.FranquiciasServiceImp;
+import com.aoa.models.Autorizacion;
 import com.aoa.models.Ciudad;
 import com.aoa.models.Franquicia;
 import com.aoa.models.Siniestros;
@@ -41,6 +45,7 @@ public class TestController {
 	
 	private CiudadService ciudadService;
 	private FranquiciasServiceImp franquiciasService;
+	private AutorizacionService autorizacionService;
 	
 	@Autowired(required=true)
 	@Qualifier(value="ciudadService")
@@ -54,6 +59,12 @@ public class TestController {
 		this.franquiciasService = fS;
 	}
 	
+	@Autowired(required=true)
+	@Qualifier(value="autorizacionService")
+	public void setAutorizacionService(AutorizacionService aS){
+		this.autorizacionService = aS;
+	}
+	
 	@RequestMapping("/Testfileservice")
 	public ModelAndView camera() {
 		System.out.println("intento generar la vista de camara");
@@ -62,10 +73,37 @@ public class TestController {
 	}
 	
 	@RequestMapping("/DocumentosScaner")
-	public ModelAndView documentos_scaner() {
+	public ModelAndView documentos_scaner(HttpSession session) throws UnknownHostException {
+		
+		
 		System.out.println("intento generar la vista de documentos");
+		System.out.println(Inet4Address.getLocalHost().getHostAddress());
+		String ipprivate = Inet4Address.getLocalHost().getHostAddress();
+		ModelAndView mv = new ModelAndView();
+		
+		if(session.getAttribute("id_siniestro") == null) {
+			
+			mv.setViewName("resultados_volver");
+			mv.addObject("process", "fail");
+			mv.addObject("prevurl", "home");
+			mv.addObject("message", "Ingreso no autorizado");
+			return mv;
+		}else {
+			int siniestro = (int)session.getAttribute("id_siniestro");
+			Autorizacion av = this.autorizacionService.get_by_siniester(String.valueOf(siniestro));
+			session.setAttribute("AutorizacionId", av.getId());
+		}
+		
 		String message = "Scanner View";
-		return new ModelAndView("documentos_scaner", "message", message);
+		/*String img_credito = (String) session.getAttribute("img_credito");
+		mv.addObject("img_credito",img_credito);
+		String img_debito = (String) session.getAttribute("img_debito");
+		mv.addObject("img_debito",img_debito);*/
+		mv.setViewName("documentos_scaner");
+		mv.addObject("Privateip", ipprivate);
+		int siniestro =  (int) session.getAttribute("id_siniestro");
+		mv.addObject("Siniestroid", siniestro);
+		return mv;		
 	}
 	
 	@RequestMapping("/scanner")

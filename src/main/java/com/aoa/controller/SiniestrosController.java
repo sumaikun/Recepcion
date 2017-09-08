@@ -77,7 +77,12 @@ public class SiniestrosController {
 		Siniestros s = this.siniestrosService.begin_service(placa, declarante_celular);		
 		if(s != null)
 		{
-			session.setAttribute("id_siniestro" , s.getId());			
+			session.setAttribute("id_siniestro" , s.getId());
+			session.setAttribute("foto_cedulaA", s.getImg_cedula_f());
+			session.setAttribute("foto_cedulaB", s.getImg_pase_f());
+			System.out.println("test image :"+session.getAttribute("foto_cedulaB"));
+			session.setAttribute("foto_paseA", s.getAdicional1_f());
+			session.setAttribute("foto_paseB", s.getAdicional2_f());
 			
 			System.out.println("id del siniestro "+s.getId());
 			if(s.getEstado() == 3)

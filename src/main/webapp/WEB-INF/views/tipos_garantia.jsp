@@ -28,13 +28,20 @@
                  	 <hr class="star-light">                	 
                  </div>
              </div>
+             <c:if test="${ valor_credito > 0 }">
              <div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg">Tarjeta de crédito</button></div>
-           	 <div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal2" class="btn btn-primary btn-lg">Consignación en efectivo</button></div>
-           	 <div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal3" class="btn btn-primary btn-lg">Todo riesgo no reembolsable</button></div>
+           	 </c:if>
+           	 <c:if test="${ valor_efectivo > 0 }">
+           	 	<div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal2" class="btn btn-primary btn-lg">Consignación en efectivo</button></div>
+           	 </c:if>
+           	 <c:if test="${ valor_riesgo > 0 }">
+           	 	<div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal3" class="btn btn-primary btn-lg">Todo riesgo no reembolsable</button></div>
+         	</c:if>
          </div>
      </div>
 </header>
-  
+
+<c:if test="${ valor_credito > 0 }">  
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -48,8 +55,9 @@
       <div class="modal-body">
         <form class="form-horizontal" role="form">
 		    <fieldset>
-		      <legend>Valor: 	$100,000</legend> 
-		     
+		      <legend>Valor: $ ${valor_credito}</legend> 
+		      
+		      <input name="valor_credito"  type="hidden" value="${valor_credito}">
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-number">Numero de Tarjeta</label>
 		        <div class="col-sm-9">
@@ -164,7 +172,9 @@
 
   </div>
 </div>
+</c:if>
 
+<c:if test="${ valor_efectivo > 0 }">
 <!-- Modal -->
 <div id="myModal2" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -178,7 +188,8 @@
       <div class="modal-body">
         <form class="form-horizontal" role="form">
 		    <fieldset>
-		      <legend>Valor de garantia: 	$300,000</legend> 
+		      <input name="valor_efectivo"  type="hidden" value="${valor_efectivo}">
+		      <legend>Valor de garantia: $ ${valor_efectivo}</legend> 
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
 		        <div class="col-sm-9">
@@ -202,7 +213,10 @@
 
   </div>
 </div>
+</c:if>
 
+
+<c:if test="${ valor_riesgo > 0 }">
 <!-- Modal -->
 <div id="myModal3" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -216,7 +230,8 @@
       <div class="modal-body">
         <form class="form-horizontal" role="form">
 		    <fieldset>
-		      <legend>Valor de garantia: $64,960,000</legend> 
+		    <input name="valor_credito"  type="hidden" value="${valor_riesgo}">
+		      <legend>Valor de garantia: $ ${valor_riesgo}</legend> 
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
 		        <div class="col-sm-9">
@@ -240,6 +255,7 @@
 
   </div>
 </div>
+</c:if>
 
 <!-- Modal -->
 <div id="myModal4" class="modal fade" role="dialog">
@@ -464,7 +480,8 @@ function finish_finan_data()
 			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
 			 devol_banco:$("select[name='devol_banco']").val(),
 			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
-			 devol_iden_titular:$("input[name='devol_iden_titular']").val()
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
+			 valor_congelamiento:$("input[name='valor_credito']").val()
 			 }, function(res, sta){
 			 console.log(res);
 			 window.location.href = 'DocumentosScaner';  
@@ -512,7 +529,8 @@ function finish_finan_data()
 			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
 			 devol_banco:$("select[name='devol_banco']").val(),
 			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
-			 devol_iden_titular:$("input[name='devol_iden_titular']").val()
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
+			 valor_congelamiento:$("input[name='valor_efectivo']").val()
 			 }, function(res, sta){
 			 console.log(res);
 			 window.location.href = 'DocumentosScaner';
@@ -557,7 +575,8 @@ function finish_finan_data()
 			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
 			 devol_banco:$("select[name='devol_banco']").val(),
 			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
-			 devol_iden_titular:$("input[name='devol_iden_titular']").val()
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
+			 valor_congelamiento:$("input[name='valor_riesgo']").val()
 			 }, function(res, sta){
 			 console.log(res);
 			 window.location.href = 'DocumentosScaner';
