@@ -35,6 +35,10 @@
 -->
 
 <script>
+	$( document ).ready(function() {
+		$("html, body").animate({ scrollTop:  175.75}, 600);
+	});
+	
 	function phpservice()
 	{
 		 $.get("http://app.aoacolombia.com/Control/operativo/controllers/RecepcionController.php", function(res, sta){

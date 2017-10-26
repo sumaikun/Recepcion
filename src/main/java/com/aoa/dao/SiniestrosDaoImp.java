@@ -56,6 +56,12 @@ public class SiniestrosDaoImp implements SiniestrosDao{
 		return s;
 			
 	}
+	@Override
+	public Siniestros getSiniestroByid(int id) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Siniestros s = (Siniestros) session.load(Siniestros.class, id);
+		return s;
+	}
 	
 	
 

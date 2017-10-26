@@ -23,23 +23,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aoa.helpers.*;
+import com.aoa.models.Autorizacion;
 import com.aoa.models.Bitacora;
 import com.aoa.models.Citas;
 import com.aoa.models.Siniestros;
+import com.aoa.services.AutorizacionService;
 import com.aoa.services.BitacoraService;
 import com.aoa.services.CitasService;
 import com.aoa.services.SiniestrosService;
 
 
 @Controller
-public class SiniestrosController {
-	
-	
+public class SiniestrosController {	
 
 	
 	private SiniestrosService siniestrosService;	
 	private CitasService citasService;
 	private BitacoraService bitacoraService;
+	private AutorizacionService autorizacionService;
 	
 	@Autowired(required=true)
 	@Qualifier(value="siniestrosService")
@@ -57,6 +58,12 @@ public class SiniestrosController {
 	@Qualifier(value="bitacoraService")
 	public void setBitacoraService(BitacoraService bS){
 		this.bitacoraService = bS;
+	}
+	
+	@Autowired(required=true)
+	@Qualifier(value="autorizacionService")
+	public void setAutorizacionService(AutorizacionService aS){
+		this.autorizacionService = aS;
 	}
 	
 	
@@ -82,7 +89,8 @@ public class SiniestrosController {
 			session.setAttribute("foto_cedulaB", s.getImg_pase_f());
 			System.out.println("test image :"+session.getAttribute("foto_cedulaB"));
 			session.setAttribute("foto_paseA", s.getAdicional1_f());
-			session.setAttribute("foto_paseB", s.getAdicional2_f());
+			session.setAttribute("foto_paseB", s.getAdicional2_f());			
+			session.setAttribute("no_garantia", s.getNo_garantia());
 			
 			System.out.println("id del siniestro "+s.getId());
 			if(s.getEstado() == 3)
@@ -95,7 +103,7 @@ public class SiniestrosController {
 					mv.setViewName("resultados_volver");
 					mv.addObject("process", "fail");
 					mv.addObject("prevurl", "home");
-					mv.addObject("message", "Error 700 ¡No hay cita pendiente! porfavor comuniquese con recepción");
+					mv.addObject("message", "Error 700 ï¿½No hay cita pendiente! porfavor comuniquese con recepciï¿½n");
 					return mv;
 				}
 				
@@ -103,7 +111,7 @@ public class SiniestrosController {
 				session.setAttribute("usuario_oficina" , c.getOficina());
 				session.setAttribute("usuario_aseguradora" , s.getAseguradora());
 				
-				if(c.getArribo() == null)
+				if(c.getArribo() == null || c.getArribo() == "0000-00-00 00:00:00")
 				{	
 					Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
 					String arribo = currentTime.toString();
@@ -166,7 +174,7 @@ public class SiniestrosController {
 			if(s.getEstado() == 8)
 			{
 				process = "fail";
-				message = "La placa \"+placa+\" se encuentra en servicio concluido no requiere datos de garantia";
+				message = "La placa "+placa+" se encuentra en servicio concluido no requiere datos de garantia";
 			}
 			
 		}
@@ -184,5 +192,52 @@ public class SiniestrosController {
 		mv.addObject("prevurl", prevurl);
 		mv.addObject("message", message);
 		return mv;
+	}
+	
+	@RequestMapping(value="/Procesofinalizado")
+	
+	public ModelAndView proceso_finalizado(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		if(session.getAttribute("id_siniestro") == null ) {
+			
+			mv.setViewName("resultados_volver");
+			mv.addObject("process", "fail");
+			mv.addObject("prevurl", "home");
+			mv.addObject("message", "Ingreso no autorizado");
+			return mv;
+		}
+		else {
+			int id = (int) session.getAttribute("id_siniestro");
+			Siniestros s = this.siniestrosService.getSiniestroByid(id);
+			if(s.getImg_cedula_f() == null || s.getImg_pase_f() == null|| s.getAdicional1_f() == null || s.getAdicional2_f() == null)
+			{				
+				mv.setViewName("resultados_volver");
+				mv.addObject("process", "fail");
+				mv.addObject("prevurl", "IngresoGarantia");
+				mv.addObject("message", "No estan las imagenes completas");
+				return mv;
+			}
+			else {	
+				String message = "Proceso terminado, DirÃ­jase a autorizaciones, se verficaran sus documentos y sus datos";
+				if(session.getAttribute("Autoriza_automaticamente")!=null)
+				{
+					Autorizacion au = this.autorizacionService.get_by_siniester(String.valueOf(s.getId()));
+					au.setEstado("A");
+					Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
+					String fecha_proceso = currentTime.toString();
+					au.setFecha_proceso(fecha_proceso);
+					this.autorizacionService.update(au);
+					message = "Proceso autorizado, DirÃ­jase a patio por su vehÃ­culo";
+				}
+				mv.setViewName("resultados_volver");
+				mv.addObject("process", "success");
+				mv.addObject("prevurl", "IngresoGarantia");
+				mv.addObject("message", message);
+				return mv;
+			}
+				
+			
+		}		
+		
 	}
 }

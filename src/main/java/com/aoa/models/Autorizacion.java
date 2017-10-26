@@ -186,7 +186,14 @@ public class Autorizacion {
 	private String identificacion_devol;
 	private String formulario_web;
 	private String consignacion_f;
+	private String fecha_proceso;
 
+	public String getFecha_proceso() {
+		return fecha_proceso;
+	}
+	public void setFecha_proceso(String fecha_proceso) {
+		this.fecha_proceso = fecha_proceso;
+	}
 	
 		
 }

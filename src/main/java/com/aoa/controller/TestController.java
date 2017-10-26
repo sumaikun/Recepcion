@@ -72,6 +72,13 @@ public class TestController {
 		return new ModelAndView("test_camara", "message", message);
 	}
 	
+	@RequestMapping("/TestCamara")
+	public ModelAndView camera2() {
+		System.out.println("intento generar la vista de camara");
+		String message = "Camera View";
+		return new ModelAndView("test_camara2", "message", message);
+	}
+	
 	@RequestMapping("/DocumentosScaner")
 	public ModelAndView documentos_scaner(HttpSession session) throws UnknownHostException {
 		
@@ -192,7 +199,7 @@ public class TestController {
 	public String Ajax(@RequestParam("image") MultipartFile file) throws IOException {
 		//String nomFichier= file.getOriginalFilename();
 		//byte[] bytes = file.getBytes();
-		System.out.println("extensión: "+file.getOriginalFilename());
+		System.out.println("extensiï¿½n: "+file.getOriginalFilename());
 		String uploadsDir = "/uploads/";
 		String ApplicationPath = ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath(uploadsDir);
         System.out.println("soy el path "+ApplicationPath);

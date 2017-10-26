@@ -38,8 +38,8 @@ public class ClientDaoImp implements ClientDao{
         String string ;
         Session session = this.sessionFactory.getCurrentSession();
 		System.out.println("estoy en el dao");
-		List<Client> clientList = session.createQuery("from Client where identificacion like :code")
-		.setParameter("code", "%"+code+"%")		
+		List<Client> clientList = session.createQuery("from Client where identificacion = :code")
+		.setParameter("code", code)		
 		.list();
 		
 		if(clientList.size()==0)

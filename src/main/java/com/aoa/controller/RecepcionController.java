@@ -48,6 +48,7 @@ public class RecepcionController {
 	private AseguradorasService aseguradorasService;
 	private FranquiciasServiceImp franquiciasService;
 	
+	
 	@Autowired(required=true)
 	@Qualifier(value="recepcionService")
 	public void setRecepcionService(RecepcionService rS){
@@ -186,7 +187,7 @@ public class RecepcionController {
 		{
 			System.out.println("franquicia "+f.getNombre());
 			
-			if(oficina == 1 && f.getId() == "10")
+			if(f.getId() == "10")
 			{
 				this.autorizacion_extra(session);
 				mv.setViewName("documentos_scaner");
@@ -202,7 +203,7 @@ public class RecepcionController {
 			mv.setViewName("resultados_volver");
 			mv.addObject("process", "fail");
 			mv.addObject("prevurl", "home");
-			mv.addObject("message", "Error 701 porfavor comuniquese con recepción");
+			mv.addObject("message", "Error 701 porfavor comuniquese con recepciï¿½n");
 			return mv;
 		}
 		
@@ -213,10 +214,10 @@ public class RecepcionController {
 		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));
 		session.setAttribute("nombre_aseguradora", as.getNombre());
 		session.setAttribute("identificacion_aseguradora", as.getNit());
-		System.out.println("pide autorización: "+as.getPide_autorizacion());
+		System.out.println("pide autorizaciï¿½n: "+as.getPide_autorizacion());
 		
 		if(val1 != null && as.getPide_autorizacion() == 1) {
-			System.out.println("ya existe autorización");
+			System.out.println("ya existe autorizaciï¿½n");
 			
 			Autorizacion Au = (Autorizacion) val1;
 			String estado = Au.getEstado();
@@ -228,7 +229,7 @@ public class RecepcionController {
 			if(Integer.parseInt(Au.getFranquicia()) == 6)
 			{
 				session.setAttribute("img_consignacion", 1);
-				
+				session.setAttribute("consignacion_img",Au.getConsignacion_f());
 				
 			}
 			else {
@@ -262,7 +263,8 @@ public class RecepcionController {
 			
 		}
 		else {
-			if(as.getPide_autorizacion() == 1)
+			int no_garantia = (int) session.getAttribute("no_garantia");
+			if(no_garantia == 0)
 			{
 				mv.addObject("franquicias",franquicias);
 				mv.addObject("valor_efectivo",as.getGarantia_consignada());
@@ -274,6 +276,7 @@ public class RecepcionController {
 		}
 		
 		this.autorizacion_extra(session);
+		session.setAttribute("auto_autorizacion", 1);
 		mv.setViewName("documentos_scaner");
 		mv.addObject("Privateip", ipprivate);
 		mv.addObject("Siniestroid", siniestro);
@@ -454,6 +457,7 @@ public class RecepcionController {
 	
 	public void autorizacion_extra(HttpSession session)
 	{
+		session.setAttribute("Autoriza_automaticamente","si");
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
 		String now = currentTime.toString();
 		int siniestro = (int) session.getAttribute("id_siniestro");
@@ -488,6 +492,8 @@ public class RecepcionController {
 			this.autorizacionService.update(au);
 		}		
 	}
+	
+
 	
 
 }

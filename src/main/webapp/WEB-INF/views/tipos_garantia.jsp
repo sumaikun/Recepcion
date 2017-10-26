@@ -16,7 +16,47 @@
     background-color: #3CBC8D;
     color: white;
 	}
+	
+	.ui-keyboard {
+    text-align: center;
+    padding: .5em;
+    position: absolute;
+    /* left: 0; */
+    /* top: 0; */
+    /* z-index: 16000; */
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+  }
+	
+	.ui-keyboard-button {
+    height: 3.5em;
+    min-width: 4em;
+    margin: .1em;
+    cursor: pointer;
+    overflow: hidden;
+    line-height: 2em;
+    -moz-user-focus: ignore;
+	}
+	
 </style>
+<!-- cdn for modernizr, if you haven't included it already -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+<!-- polyfiller file to detect and load polyfills -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+<script>
+webshims.setOptions('forms-ext', {types: 'date'});
+webshims.polyfill('forms forms-ext');
+$.webshims.formcfg = {
+en: {
+    dFormat: '-',
+    dateSigns: '-',
+    patterns: {
+        d: "yy-mm-dd"
+    }
+}
+};
+
+</script>
 <br>
 <br>
 <header id="home">

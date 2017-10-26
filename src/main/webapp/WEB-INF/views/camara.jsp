@@ -83,6 +83,7 @@
 	function streamWebCam (stream) {
 		video.src = window.URL.createObjectURL(stream);
 		video.play();
+		$("html, body").animate({ scrollTop:  175.75}, 600);
 	}
 
 	function throwError (e) {
@@ -94,6 +95,7 @@
 		canvas.height = video.clientHeight;
 		context.drawImage(video, 0, 0);
 		$('#show_button').show();
+		$("html, body").animate({ scrollTop:  225.75}, 600);
 	}
 	
 
@@ -137,7 +139,7 @@
 		
 		var formData = new FormData();
         formData.append('image', file, "FotoArribo");
-        formData.append('idsiniestro', ${id_siniestro});        
+        formData.append('idsiniestro', "${id_siniestro}");        
 		$.ajax({			 
 			  url: "http://app.aoacolombia.com/Control/operativo/controllers/RecepcionController.php",
 			  data: formData,

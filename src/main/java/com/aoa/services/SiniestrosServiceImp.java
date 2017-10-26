@@ -31,4 +31,10 @@ public class SiniestrosServiceImp implements SiniestrosService {
 		return this.siniestrosDao.begin_service(placa, declarante_celular);
 	}
 
+	@Transactional
+	@Override
+	public Siniestros getSiniestroByid(int id) {
+		return this.siniestrosDao.getSiniestroByid(id);
+	}
+
 }
