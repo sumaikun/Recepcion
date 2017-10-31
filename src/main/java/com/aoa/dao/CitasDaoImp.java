@@ -40,6 +40,7 @@ public class CitasDaoImp implements CitasDao {
 	
 	@Override
 	public void update(Citas c) {
+		System.out.println("aca hago el update "+c.getArribo());
 		Session session = this.sessionFactory.getCurrentSession();
 		session.update(c);
 		

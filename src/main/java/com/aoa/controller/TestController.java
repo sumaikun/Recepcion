@@ -217,7 +217,7 @@ public class TestController {
 	@RequestMapping(value="/set_photo_url", method = RequestMethod.POST)
 	@ResponseBody
 	public String set_photo_url(HttpSession session) throws IOException {
-		String photourl = "ingreso_recepcion/Autoservicio/"+session.getAttribute("id_siniestro")+"/FotoArribo_"+session.getAttribute("id_siniestro")+".png";
+		String photourl = "ingreso_recepcion/Autoservicio/"+session.getAttribute("id_cita")+"/"+session.getAttribute("id_siniestro")+"/FotoArribo_"+session.getAttribute("id_siniestro")+".png";
 		session.setAttribute("photo_url", photourl);
 		return "got it";
 	}

@@ -2601,6 +2601,20 @@ http://www.opensource.org/licenses/mit-license.php
 				'1 2 3 %',
 				'0 {dec} {a} {c}'
 			]
+		},
+		'ipad-email': {
+			'normal': [
+				'q w e r t y u i o p {bksp}',
+				'a s d f g h j k l {enter}',
+				'{s} z x c v b n m @ . {s}',
+				'{meta1} {space} _ - {accept}'
+			],
+			'shift': [
+				'Q W E R T Y U I O P {bksp}',
+				'A S D F G H J K L {enter}',
+				'{s} Z X C V B N M @ . {s}',
+				'{meta1} {space} _ - {accept}'
+			]
 		}
 	};
 

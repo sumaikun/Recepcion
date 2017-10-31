@@ -39,23 +39,19 @@
 	}
 	
 </style>
-<!-- cdn for modernizr, if you haven't included it already -->
-<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
-<!-- polyfiller file to detect and load polyfills -->
-<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
-<script>
-webshims.setOptions('forms-ext', {types: 'date'});
-webshims.polyfill('forms forms-ext');
-$.webshims.formcfg = {
-en: {
-    dFormat: '-',
-    dateSigns: '-',
-    patterns: {
-        d: "yy-mm-dd"
-    }
-}
-};
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  -->
 
+<script>
+    $(function(){
+         // Find any date inputs and override their functionality
+         if (navigator.userAgent.indexOf("Firefox") > 0) {
+                //alert("ff");
+                $('input[type="date"]').datepicker();
+            }
+        	 
+         
+        
+    });
 </script>
 <br>
 <br>
@@ -83,7 +79,7 @@ en: {
 
 <c:if test="${ valor_credito > 0 }">  
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" data-backdrop="static" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -107,8 +103,8 @@ en: {
 		      <div class="form-group">
 		      	<label class="col-sm-3 control-label" for="card-number">Franquicia</label>
 		       	<div class="col-sm-9">
-		       		<select class="form-control" name="franquicia">
-		       			<option>Selecciona</option>
+		       		<select class="form-control" id="franquicia" name="franquicia">
+		       			<option value="">Selecciona</option>
 		       			<c:forEach items="${franquicias}" var="franquicia">			
 							<option value="${franquicia.id}">${franquicia.nombre}</option>							
 						</c:forEach>
@@ -187,6 +183,10 @@ en: {
 		                <option value="2025">2025</option>
 		                <option value="2026">2026</option>
 		                <option value="2027">2027</option>
+		                <option value="2028">2028</option>
+		                <option value="2029">2029</option>
+		                <option value="2030">2030</option>
+		                <option value="2031">2031</option>
 		              </select>
 		            </div>
 		          </div>
@@ -195,17 +195,17 @@ en: {
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="cvv">CVV</label>
 		        <div class="col-sm-3">
-		          <input type="number" maxlength="3" class="form-control num" name="cvv" id="cvv" placeholder="Security Code">		           
+		          <input type="number" style="width:150px;" maxlength="3" class="form-control num" name="cvv" id="cvv" placeholder="Security Code">		           
 		        </div>
 		      </div>
 		       <img class="pull-right" src="http://www.domyownpestcontrol.com/images/securitycode.jpg" alt="Smiley face" height="150" width="150" style="margin-top:-110px;">
 		    </fieldset>
 		  </form>
-		  
-		 
+		  <div class="form-group">
+		  	<button type="button" class="btn btn-success form-control"  onclick="devoluciones('credito')">CONTINUAR</button>
+		  </div>		 
       </div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="devoluciones('credito')">Guardar</button>
+      <div class="modal-footer">      	
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -216,7 +216,7 @@ en: {
 
 <c:if test="${ valor_efectivo > 0 }">
 <!-- Modal -->
-<div id="myModal2" class="modal fade" role="dialog">
+<div id="myModal2" data-backdrop="static" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -244,9 +244,11 @@ en: {
 		      </div>		     
 		    </fieldset>
 		  </form>
+		  <div class="form-group">
+		  	<button type="button" class="btn btn-success form-control"  onclick="devoluciones('efectivo')">CONTINUAR</button>
+		  </div>
       </div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="devoluciones('efectivo')">Guardar</button>
+      <div class="modal-footer">      	
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -258,7 +260,7 @@ en: {
 
 <c:if test="${ valor_riesgo > 0 }">
 <!-- Modal -->
-<div id="myModal3" class="modal fade" role="dialog">
+<div id="myModal3" data-backdrop="static" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -286,9 +288,11 @@ en: {
 		      </div>		     
 		    </fieldset>
 		  </form>
+		  <div class="form-group">
+		  	<button type="button" class="btn btn-success form-control"  onclick="devoluciones('riesgo')">CONTINUAR</button>
+		  </div>
       </div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-success" data-dismiss="modal" onclick="devoluciones('riesgo')">Guardar</button>
+      <div class="modal-footer">      	
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -298,7 +302,7 @@ en: {
 </c:if>
 
 <!-- Modal -->
-<div id="myModal4" class="modal fade" role="dialog">
+<div id="myModal4" class="modal fade" data-backdrop="static" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -378,9 +382,11 @@ en: {
 		      </div>			     
 		    </fieldset>
 		  </form>
+		  <div class="form-group">
+		  	<button type="button" onclick="finish_finan_data()" class="btn btn-success form-control">Enviar información</button>
+		  </div>
       </div>
-      <div class="modal-footer">
-      	<button type="button" onclick="finish_finan_data()" class="btn btn-success">Enviar información</button>
+      <div class="modal-footer">      	
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -418,41 +424,72 @@ $( document ).ready(function() {
 	     } 
 
 	 today = yyyy+'-'+mm+'-'+dd;
-	 document.getElementById("fecha1").setAttribute("max", today);
-	 document.getElementById("fecha2").setAttribute("max", today);
+	 $("#fecha1").attr("max", today);
+	 $("#fecha2").attr("max", today);
+});
+
+$("#franquicia").change(function(){
+	if($("input[name='numero_tarjeta']").val().length == "" ){		
+		alert("Ingrese primero el numero de la tarjeta");
+		event.target.value = "";
+	}
+	else{
+		var num = $("input[name='numero_tarjeta']").val();
+		if(event.target.value == 1 & num[0] !=4)
+		{
+			alert("El numero de la tarjeta no corresponde a la franquicia");
+			event.target.value = "";
+		}
+		if(event.target.value == 2 & num[0] !=5)
+		{
+			alert("El numero de la tarjeta no corresponde a la franquicia");
+			event.target.value = "";
+		}
+		
+		if((event.target.value == 3 || event.target.value == 4) & num[0] !=3)
+		{
+			alert("El numero de la tarjeta no corresponde a la franquicia");
+			event.target.value = "";
+		}
+		//alert(num[0]);
+		//alert(event.target.value);	
+	}
+	
+});
+
+$("input[name='numero_tarjeta']").change(function(){
+	$("#franquicia").val("");
 });
 
 function devoluciones(tipo)
 {	
-	$("#myModal4").modal('show');
-	tipo_garantia = tipo;
-}
-
-function finish_finan_data()
-{
-
-	
-	if(tipo_garantia == "credito")
+	if(tipo == "credito")
 	{
+		var d = new Date();
+		var y = d.getFullYear();
+		var m = d.getMonth();
+		
+		if($("select[name='year_expi']").val() == y)
+		{
+				if($("select[name='month_expi']").val()<=m)
+				{
+					alert("fecha de vencimiento invalida");
+					return false;
+				}
+		}
+		
+		if($("select[name='year_expi']").val() < y)
+		{
+			alert("El año de vencimiento ya paso");
+			return false;
+		}
+		
 		if($("input[name='numero_tarjeta']").val().length != 16 )
 		{
 			console.log($("input[name='numero_tarjeta']").val().length);
 			alert("El numero de la tarjeta no debe ser mayor o menor de 16 dígitos");
 			return false;
-		}
-		
-		if($("input[name='devol_cuenta_bancaria']").val().length<7 || $("input[name='numero_tarjeta']").length>16)
-		{
-			console.log($("input[name='devol_cuenta_bancaria']").val());
-			alert("El numero de la cuenta no debe ser mayor de 16 dígitos o menor de 7 dígitos");
-			return false;
-		}
-		
-		if($("input[name='devol_iden_titular']").val().length<7 || $("input[name='numero_tarjeta']").length>10)
-		{
-			alert("El numero del documento de identidad debe estar entre los 7 a 10 dígitos");
-			return false;
-		}
+		}		
 		
 		if($("input[name='cvv']").val().length != 3)
 		{
@@ -472,42 +509,91 @@ function finish_finan_data()
 			return false;
 		}
 		
-		if($("select[name='month_expi']").val() == "")
-		{
-			alert("Seleccione el mes de expiración de la tarjeta de credito");
-			return false;
-		}
-		
 		if($("select[name='year_expi']").val() == "")
 		{
 			alert("Seleccione el mes de año de la tarjeta de credito");
 			return false;
-		}
+		}	
 		
-		if($("input[name='devol_cuenta_bancaria']").val() == "")
+		if($("select[name='month_expi']").val() == "")
 		{
-			alert("Ingrese el numero de cuenta bancaria de devoluciones");
+			alert("Seleccione el mes de expiración de la tarjeta de credito");
+			return false;
+		}		
+		
+		$("#myModal").modal('hide');
+	}
+	if(tipo == "efectivo")
+	{
+		if($("input[name='comprobante_consignacion']").val().length < 7 || $("input[name='comprobante_consignacion']").val().length > 15){
+			alert("El comprobante de consignación debe tener entre 7 a 15 dígitos");
 			return false;
 		}
-		
-		if($("select[name='devol_banco']").val() == "")
-		{
-			alert("Seleccione el banco de devolucion");
+		if($("input[name='fecha_consignacion']").val() == ""){
+			alert("Debe agregar una fecha de consignación");
 			return false;
 		}
-		
-		if($("input[name='devol_nombre_titular']").val() == "")
-		{
-			alert("Ingrese el nombre de titular de devolución");
+		$("#myModal2").modal('hide');
+	}
+	if(tipo == "riesgo")
+	{
+		if($("input[name='riesgo_consignacion']").val().length < 7 || $("input[name='riesgo_consignacion']").val().length > 15){
+			alert("El comprobante de consignación debe tener entre 7 a 15 dígitos");			
 			return false;
 		}
-		
-		if($("input[name='devol_iden_titular']").val() == "")
-		{
-			alert("Ingrese el documento de identidad de titular de devolución");
+		if($("input[name='riesgo_fecha']").val() == ""){
+			alert("Debe agregar una fecha de consignación");
 			return false;
-		}
+		}	
+		//alert("cerrar el tercer modal");
+		$("#myModal3").modal('hide');		
 		
+	}
+	$("#myModal4").modal('show');
+	tipo_garantia = tipo;
+	return true;
+}
+
+function finish_finan_data()
+{
+	if($("input[name='devol_cuenta_bancaria']").val() == "")
+	{
+		alert("Ingrese el numero de cuenta bancaria de devoluciones");
+		return false;
+	}
+	if($("input[name='devol_cuenta_bancaria']").val().length<7 || $("input[name='numero_tarjeta']").length>16)
+	{
+		console.log($("input[name='devol_cuenta_bancaria']").val());
+		alert("El numero de la cuenta no debe ser mayor de 16 dígitos o menor de 7 dígitos");
+		return false;
+	}	
+	
+	if($("select[name='devol_banco']").val() == "")
+	{
+		alert("Seleccione el banco de devolucion");
+		return false;
+	}
+	
+	if($("input[name='devol_nombre_titular']").val() == "")
+	{
+		alert("Ingrese el nombre de titular de devolución");
+		return false;
+	}
+	
+	if($("input[name='devol_iden_titular']").val() == "")
+	{
+		alert("Ingrese el documento de identidad de titular de devolución");
+		return false;
+	}
+	
+	if($("input[name='devol_iden_titular']").val().length<7 || $("input[name='numero_tarjeta']").length>10)
+	{
+		alert("El numero del documento de identidad debe estar entre los 7 a 10 dígitos");
+		return false;
+	}
+	
+	if(tipo_garantia == "credito")
+	{
 		 $.post("garantia_credito",{
 			 "${_csrf.parameterName}":"${_csrf.token}",
 			 numero_tarjeta:$("input[name='numero_tarjeta']").val(),
@@ -529,38 +615,7 @@ function finish_finan_data()
 	}
 	
 	if(tipo_garantia == "efectivo")
-	{
-		if($("input[name='comprobante_consignacion']").val().length < 7 || $("input[name='comprobante_consignacion']").val().length > 15){
-			alert("El comprobante de consignación debe tener entre 7 a 15 dígitos");
-			return false;
-		}
-		
-		
-		
-		if($("input[name='devol_cuenta_bancaria']").val() == "")
-		{
-			alert("Ingrese el numero de cuenta bancaria de devoluciones");
-			return false;
-		}
-		
-		if($("select[name='devol_banco']").val() == "")
-		{
-			alert("Seleccione el banco de devolucion");
-			return false;
-		}
-		
-		if($("input[name='devol_nombre_titular']").val() == "")
-		{
-			alert("Ingrese el nombre de titular de devolución");
-			return false;
-		}
-		
-		if($("input[name='devol_iden_titular']").val() == "")
-		{
-			alert("Ingrese el documento de identidad de titular de devolución");
-			return false;
-		}
-		
+	{			
 		 $.post("garantia_efectivo",{
 			 "${_csrf.parameterName}":"${_csrf.token}",
 			 comprobante_consignacion:$("input[name='comprobante_consignacion']").val(),
@@ -578,35 +633,9 @@ function finish_finan_data()
 	}
 	
 	if(tipo_garantia == "riesgo")
-	{
-		if($("input[name='riesgo_consignacion']").val().length < 7 || $("input[name='comprobante_consignacion']").val().length > 15){
-			alert("El comprobante de consignación debe tener entre 7 a 15 dígitos");
-			return false;
-		}
+	{		
 		
-		if($("input[name='devol_cuenta_bancaria']").val() == "")
-		{
-			alert("Ingrese el numero de cuenta bancaria de devoluciones");
-			return false;
-		}
 		
-		if($("select[name='devol_banco']").val() == "")
-		{
-			alert("Seleccione el banco de devolucion");
-			return false;
-		}
-		
-		if($("input[name='devol_nombre_titular']").val() == "")
-		{
-			alert("Ingrese el nombre de titular de devolución");
-			return false;
-		}
-		
-		if($("input[name='devol_iden_titular']").val() == "")
-		{
-			alert("Ingrese el documento de identidad de titular de devolución");
-			return false;
-		}
 		 $.post("garantia_riesgo",{
 			 "${_csrf.parameterName}":"${_csrf.token}",
 			 comprobante_consignacion:$("input[name='riesgo_consignacion']").val(),

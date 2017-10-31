@@ -101,7 +101,7 @@
 												<button class="btn btn-danger form-control" onclick="update_data()">Actualizar mis datos</button>
 											</div>
 											<div class="form-group">
-												<button class="btn btn-success form-control" onclick="go_to_docs()">Subir documentos</button>
+												<button class="btn btn-success form-control" onclick="go_to_docs()">Continuar mi proceso</button>
 											</div>								       	  	  
 							          </div>
 						        	<form:form action="create_customer_data"  method="post" id="Client_form" >   								 
@@ -191,7 +191,7 @@
 											</div>
 											<div class="form-group">
 												<label class="form-control">Email</label>
-												<input type="email" class="form-control keyboard" name="correo" required>
+												<input type="email" class="form-control kemail" name="correo" required>
 											</div>
 											
 							          </div>
@@ -423,6 +423,13 @@ $( document ).ready(function() {
 
 	 $('.num').keyboard({
 		layout : 'num',
+		restrictInput : true, 
+		preventPaste : true,  
+		autoAccept : true
+	});
+	 
+	$('.kemail').keyboard({
+		layout : 'ipad-email',
 		restrictInput : true, 
 		preventPaste : true,  
 		autoAccept : true

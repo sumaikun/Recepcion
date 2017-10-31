@@ -111,13 +111,16 @@ public class SiniestrosController {
 				session.setAttribute("usuario_oficina" , c.getOficina());
 				session.setAttribute("usuario_aseguradora" , s.getAseguradora());
 				
+				//System.out.println("id de la cita "+c.getId());
+				System.out.println("arribo detectado "+c.getArribo());
+				
 				if(c.getArribo() == null || c.getArribo() == "0000-00-00 00:00:00")
 				{	
 					Timestamp currentTime = new Timestamp(System.currentTimeMillis());	
 					String arribo = currentTime.toString();
 					c.setArribo(arribo);
 					session.setAttribute("arribo" , arribo);
-					System.out.println("id de la cita "+c.getId());
+					System.out.println("Si el arribo era null pasa a valer "+arribo);
 					this.citasService.update(c);
 					System.out.println("aca guardo la bitacora");
 					int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -147,13 +150,11 @@ public class SiniestrosController {
 				else {
 					session.setAttribute("arribo" , c.getArribo());
 					System.out.println("ya existe el arribo");
-				}					
-				//process = "success";
-				//message = "Siniestro encontrado con id "+s.getId();
+				}			
 				
 				ModelAndView mv = new ModelAndView();
 				mv.setViewName("camara");
-				//System.out.println(cache.get("prueba"));
+				
 				return mv;
 			}
 			if(s.getEstado() == 1)

@@ -11,5 +11,5 @@ import com.aoa.models.User;
 @Service
 public interface CitasService {
 	public Citas cita_arribo(int siniestro);
-	void update(Citas c);
+	public void update(Citas c);
 }

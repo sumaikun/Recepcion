@@ -122,15 +122,15 @@ public class RecepcionController {
 		val2 = this.recepcionService.get_by_code(identificacion,cita);
 		Client c = new Client();
 		
-		c.setNombre(nombres);
-		c.setApellido(apellidos);
+		c.setNombre(nombres.toUpperCase());
+		c.setApellido(apellidos.toUpperCase());
 		c.setTipo_id(tipo_identificacion);
 		c.setIdentificacion(identificacion);
-		c.setLugar_expdoc(lugar_expedicion);
+		c.setLugar_expdoc(lugar_expedicion.toUpperCase());
 		c.setPais("CO");
 		c.setCiudad(ciudad);
-		c.setDireccion(dir_domicilio);
-		c.setBarrio(barrio);
+		c.setDireccion(dir_domicilio.toUpperCase());
+		c.setBarrio(barrio.toUpperCase());
 		c.setTelefono_oficina(tel_oficina);
 		c.setTelefono_casa(tel_vivienda);
 		c.setCelular(celular);

@@ -32,7 +32,7 @@ public class CitasServiceImp implements CitasService {
 	@Override
 	public void update(Citas c) {
 		// TODO Auto-generated method stub
-		
+		this.citasDao.update(c);
 	}
 	
 	
