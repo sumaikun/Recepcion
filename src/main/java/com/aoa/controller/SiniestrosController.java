@@ -108,6 +108,7 @@ public class SiniestrosController {
 				}
 				
 				session.setAttribute("id_cita" , c.getId());
+				session.setAttribute("dias_servicio" , c.getDias_servicio());
 				session.setAttribute("usuario_oficina" , c.getOficina());
 				session.setAttribute("usuario_aseguradora" , s.getAseguradora());
 				

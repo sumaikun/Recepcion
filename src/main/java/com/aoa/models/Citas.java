@@ -14,6 +14,7 @@ public class Citas {
 	private int siniestro;	
 	private String arribo;
 	private int oficina;
+	private int dias_servicio;
 	
 	public int getOficina() {
 		return oficina;
@@ -42,6 +43,12 @@ public class Citas {
 	
 	public void setSiniestro(int siniestro) {
 		this.siniestro = siniestro;
+	}
+	public int getDias_servicio() {
+		return dias_servicio;
+	}
+	public void setDias_servicio(int dias_servicio) {
+		this.dias_servicio = dias_servicio;
 	}
 	
 }

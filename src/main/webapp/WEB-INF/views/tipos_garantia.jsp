@@ -273,7 +273,7 @@
         <form class="form-horizontal" role="form">
 		    <fieldset>
 		    <input name="valor_credito"  type="hidden" value="${valor_riesgo}">
-		      <legend>Valor de garantia: $ ${valor_riesgo}</legend> 
+		      <legend>Valor de garantia: $ ${valor_riesgo*dias_servicio} , días de servicio ${dias_servicio}</legend> 
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
 		        <div class="col-sm-9">
@@ -285,7 +285,8 @@
 		        <div class="col-sm-9">
 		          <input class="form-control" id="fecha2" name="riesgo_fecha" type="date">
 		        </div>
-		      </div>		     
+		      </div>
+		      <input type='hidden' name='riesgo_valor' value='${valor_riesgo*dias_servicio}'>		     
 		    </fieldset>
 		  </form>
 		  <div class="form-group">
@@ -645,7 +646,7 @@ function finish_finan_data()
 			 devol_banco:$("select[name='devol_banco']").val(),
 			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
 			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
-			 valor_congelamiento:$("input[name='valor_riesgo']").val()
+			 valor:$("input[name='riesgo_valor']").val()
 			 }, function(res, sta){
 			 console.log(res);
 			 window.location.href = 'DocumentosScaner';

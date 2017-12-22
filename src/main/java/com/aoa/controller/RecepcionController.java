@@ -169,6 +169,7 @@ public class RecepcionController {
 		
 		if (val2 == null)
 		{			
+			System.out.println("creo un ingreso a recepcion ");
 			this.recepcionService.create(r);
 		}
 		else {
@@ -211,6 +212,7 @@ public class RecepcionController {
 		Object val1 = this.autorizacionService.get_by_siniester(String.valueOf(siniestro1));
 		
 		Aseguradoras as = new Aseguradoras();
+		System.out.println("aseguradora :"+session.getAttribute("usuario_aseguradora"));
 		as = this.aseguradorasService.getAseguradorasById((int) session.getAttribute("usuario_aseguradora"));
 		session.setAttribute("nombre_aseguradora", as.getNombre());
 		session.setAttribute("identificacion_aseguradora", as.getNit());
@@ -411,7 +413,7 @@ public class RecepcionController {
 			,@RequestParam("devol_banco") String devol_banco
 			,@RequestParam("devol_nombre_titular") String devol_nombre_titular	
 			,@RequestParam("devol_iden_titular") String devol_iden_titular
-			,@RequestParam("valor_congelamiento") int valor_congelamiento) {
+			,@RequestParam("valor") int valor) {
 		session.setAttribute("img_consignacion", 1);
 		int siniestro = (int) session.getAttribute("id_siniestro");
 		if(siniestro == 0)
@@ -433,7 +435,7 @@ public class RecepcionController {
 		au.setEstado("E");	
 
 		
-		au.setValor(String.valueOf(valor_congelamiento));
+		au.setValor(String.valueOf(valor));
 		au.setEmail((String) session.getAttribute("correo"));
 		au.setDevol_tipo_cuenta(devol_tipo_cuenta);
 		au.setDevol_cuenta_banco(devol_cuenta_bancaria);
