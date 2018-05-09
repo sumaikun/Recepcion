@@ -29,9 +29,15 @@ public class CitasDaoImp implements CitasDao {
 				.setParameter("sn",siniestro)				
 				.list();
 		Citas c = new Citas();		
-		c = citasList.get(0);
-		System.out.println("id cita "+c.getId());
-		System.out.println("arribo "+c.getArribo());
+		
+		if(citasList.size()>0)		
+		{
+			c = citasList.get(0);
+			System.out.println("id cita "+c.getId());
+			System.out.println("arribo "+c.getArribo());
+			
+		}
+		
 		return c;
 		
 		

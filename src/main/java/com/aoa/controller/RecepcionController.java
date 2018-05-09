@@ -219,7 +219,7 @@ public class RecepcionController {
 		System.out.println("pide autorizaci�n: "+as.getPide_autorizacion());
 		
 		if(val1 != null && as.getPide_autorizacion() == 1) {
-			System.out.println("ya existe autorizaci�n");
+			System.out.println("ya existe autorización");
 			
 			Autorizacion Au = (Autorizacion) val1;
 			String estado = Au.getEstado();
@@ -387,7 +387,7 @@ public class RecepcionController {
 		au.setEmail((String) session.getAttribute("correo"));
 		au.setDevol_tipo_cuenta(devol_tipo_cuenta);
 		au.setDevol_cuenta_banco(devol_cuenta_bancaria);
-		au.setBanco(Integer.parseInt(devol_banco));
+		au.setDevol_banco(devol_banco);
 		au.setDevol_ncuenta(devol_nombre_titular);
 		au.setIdentificacion_devol(devol_iden_titular);
 		au.setFormulario_web("2");

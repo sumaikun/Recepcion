@@ -97,13 +97,24 @@ public class SiniestrosController {
 			{
 				Citas c = this.citasService.cita_arribo(s.getId());				
 				
+				if(c == null)
+				{
+					System.out.println("No hay cita");
+					ModelAndView mv = new ModelAndView();
+					mv.setViewName("resultados_volver");
+					mv.addObject("process", "fail");
+					mv.addObject("prevurl", "home");
+					mv.addObject("message", "Error 700  No hay cita pendiente! porfavor comuniquese con recepción");
+					return mv;
+				}
+				
 				if(c.getId() == 0)
 				{
 					ModelAndView mv = new ModelAndView();
 					mv.setViewName("resultados_volver");
 					mv.addObject("process", "fail");
 					mv.addObject("prevurl", "home");
-					mv.addObject("message", "Error 700 �No hay cita pendiente! porfavor comuniquese con recepci�n");
+					mv.addObject("message", "Error 700  No hay cita pendiente! porfavor comuniquese con recepción");
 					return mv;
 				}
 				
