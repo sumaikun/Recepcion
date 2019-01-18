@@ -25,6 +25,17 @@ public class Siniestros {
 	private String img_pase_f;
 	private String Adicional1_f;
 	private String Adicional2_f;
+	private String adicional3_f;
+	private String adicional4_f;
+
+	public String getAdicional3_f() {
+		return adicional3_f;
+	}
+
+	public String getAdicional4_f() {
+		return adicional4_f;
+	}	
+	
 	
 	public String getImg_cedula_f() {
 		return img_cedula_f;

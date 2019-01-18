@@ -49,7 +49,7 @@ public class FranquiciasDaoImp {
 			}
 		}
 		
-		System.out.println( "id conseguidos "+String.join(",", franquiciasid));
+		//System.out.println( "id conseguidos "+String.join(",", franquiciasid));
 		
 		List<Franquicia> franquicias = session.createQuery("from Franquicia where id in :franqlist ")
 				.setParameterList("franqlist", franquiciasid)

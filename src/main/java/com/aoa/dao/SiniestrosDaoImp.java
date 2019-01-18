@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.hibernate.Query;
 import com.aoa.models.Siniestros;
-import com.aoa.models.User;
+
 
 @Repository
 public class SiniestrosDaoImp implements SiniestrosDao{
@@ -34,23 +34,38 @@ public class SiniestrosDaoImp implements SiniestrosDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public Siniestros begin_service(String placa, String declarante_celular) {
-		Siniestros s;
+		Siniestros s = null;
 		Session session = this.sessionFactory.getCurrentSession();
-		System.out.println("estoy en el dao");
-		List<Siniestros> siniestrosList = session.createQuery("from Siniestros where placa like :placa and declarante_celular = :declarante_celular")
+		System.out.println("estoy en el dao");		
+		List<Siniestros> siniestrosList = session.createQuery("from Siniestros where placa like :placa and (declarante_celular = :declarante_celular  or declarante_tel_resid = :declarante_tel_resid or declarante_tel_ofic = :declarante_tel_ofic or declarate_tel_otro = :declarate_tel_otro or declarante_telefono = :declarante_telefono )  ORDER BY id DESC")
 		.setParameter("placa", "%"+placa+"%")
 		.setParameter("declarante_celular", declarante_celular)
+		.setParameter("declarante_tel_resid", declarante_celular)
+		.setParameter("declarante_tel_ofic", declarante_celular)
+		.setParameter("declarate_tel_otro", declarante_celular)
+		.setParameter("declarante_telefono", declarante_celular)		
 		.list();
-		/*List<Siniestros> siniestrosList = session.createQuery("from Siniestros where numero = :code")
-				.setParameter("code", "218411735")				
-				.list();*/
+		
+		
+		
 		if(siniestrosList.size()==0)
 		{
 			s = null;
 			System.out.println("no se encuentra el resultado");
 		}
 		else {
-			 s = siniestrosList.get(0);
+			for(Siniestros sin : siniestrosList){
+				if(sin.getEstado() == 3)
+				{
+					s = sin;
+				}
+			}
+			
+			if(s == null)
+			{
+				s = siniestrosList.get(0);
+			}
+			 
 		}		
 		
 		return s;

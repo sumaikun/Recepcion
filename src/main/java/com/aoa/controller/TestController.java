@@ -192,6 +192,22 @@ public class TestController {
 	        }*/	
 		 return c;
 	}
+	
+	@RequestMapping(value="/active_tarh", method = RequestMethod.POST)
+	@ResponseBody
+	public String active_tarh(HttpSession session) {
+		session.setAttribute("active_tarh",1);
+		String response = "Tarjetahaviente activado";
+		return response;
+	}
+	
+	@RequestMapping(value="/inactive_tarh", method = RequestMethod.POST)
+	@ResponseBody
+	public String inactive_tarh(HttpSession session) {
+		session.setAttribute("active_tarh",0);
+		String response = "Tarjetahaviente desactivado";
+		return response;
+	}
 
 	
 	@RequestMapping(value="/ajaxtest", method = RequestMethod.POST)

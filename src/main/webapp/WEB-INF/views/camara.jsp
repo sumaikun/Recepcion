@@ -81,7 +81,9 @@
 	}
 
 	function streamWebCam (stream) {
-		video.src = window.URL.createObjectURL(stream);
+		//video.src = window.URL.createObjectURL(stream);
+		video.srcObject = stream;
+		
 		video.play();
 		$("html, body").animate({ scrollTop:  175.75}, 600);
 	}
@@ -91,7 +93,11 @@
 	}
 
 	function snap () {
-		canvas.width = video.clientWidth;
+		if(video.clientWidth < 301)
+		{
+			return alert("¡Por favor Acceda a la camara para tomar la foto!");
+		}
+		canvas.width = video.clientWidth;		
 		canvas.height = video.clientHeight;
 		context.drawImage(video, 0, 0);
 		$('#show_button').show();
@@ -132,9 +138,20 @@
 		var dataURL = canvas.toDataURL("image/png");
 		var blobBin = atob(dataURL.split(',')[1]);
 		var array = [];
+		
+		//alert(blobBin.length);
+		
+		if(blobBin.length<1500)
+		{
+			return alert("¡Por favor tómese una foto para continuar!");
+		}
+		
 		for(var i = 0; i < blobBin.length; i++) {
 		    array.push(blobBin.charCodeAt(i));
 		}
+		
+		//alert(blobBin.length);
+		
 		var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
 		
 		var formData = new FormData();

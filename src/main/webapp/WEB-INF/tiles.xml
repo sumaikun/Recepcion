@@ -11,30 +11,20 @@
         <put-attribute name="menu" value="/WEB-INF/views/layout/menu.jsp" />  
         <put-attribute name="body" value="" />  
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />  
-    </definition>  
-  
-    <definition name="contact" extends="base.definition">  
-        <put-attribute name="title" value="Contact Manager" />  
-        <put-attribute name="body" value="/WEB-INF/views/contact.jsp" />  
-    </definition>  
+    </definition>
   
     <definition name="hello" extends="base.definition">  
-        <put-attribute name="title" value="Hello Spring MVC" />  
+        <put-attribute name="title" value="hello" />  
         <put-attribute name="body" value="/WEB-INF/views/hello.jsp" />  
     </definition>
     
     <definition name="home" extends="base.definition">  
-        <put-attribute name="title" value="Hello Spring MVC" />  
+        <put-attribute name="title" value="AOA" />  
         <put-attribute name="body" value="/WEB-INF/views/home.jsp" />  
-    </definition>
-    
-    <definition name="users" extends="base.definition">  
-        <put-attribute name="title" value="List Users" />  
-        <put-attribute name="body" value="/WEB-INF/views/users.jsp" />  
-    </definition>
+    </definition>    
     
     <definition name="login" extends="base.definition">
-    	<put-attribute name="title" value="Login" /> 	        
+    	<put-attribute name="title" value="AOA" /> 	        
         <put-attribute name="body" value="/WEB-INF/views/login.jsp" />  
     </definition>
     
@@ -55,15 +45,17 @@
     </definition>
     
     <definition name="camara" extends="base.definition">
+    	<put-attribute name="title" value="AOA" />
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />      	
         <put-attribute name="body" value="/WEB-INF/views/camara.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
     </definition>
     
     <definition name="personal_form" extends="base.definition">
+    	<put-attribute name="title" value="AOA" />
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />      	
         <put-attribute name="body" value="/WEB-INF/views/personal_form.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty_footer.jsp" />   
     </definition>
     
     <definition name="test_scanner" extends="base.definition">    	
@@ -74,32 +66,38 @@
         <put-attribute name="body" value="/WEB-INF/views/test_scanner2.jsp" />  
     </definition>
     
-    <definition name="ingreso_garantia" extends="base.definition">    	
+    <definition name="ingreso_garantia" extends="base.definition">
+    	<put-attribute name="title" value="AOA" />    	
         <put-attribute name="body" value="/WEB-INF/views/ingreso_garantia.jsp" />  
+    	<put-attribute name="footer" value="/WEB-INF/views/layout/empty_footer.jsp" />
     </definition>
     
-    <definition name="resultados_volver" extends="base.definition"> 
+    <definition name="resultados_volver" extends="base.definition">
+    	<put-attribute name="title" value="AOA" /> 
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
         <put-attribute name="body" value="/WEB-INF/views/resultados_volver.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
     </definition>
     
-    <definition name="tipos_garantia" extends="base.definition"> 
+    <definition name="tipos_garantia" extends="base.definition">
+    	<put-attribute name="title" value="AOA" /> 
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
         <put-attribute name="body" value="/WEB-INF/views/tipos_garantia.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty_footer.jsp" />   
     </definition>
     
-    <definition name="documentos_scaner" extends="base.definition"> 
+    <definition name="documentos_scaner" extends="base.definition">
+    	<put-attribute name="title" value="AOA" /> 
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
         <put-attribute name="body" value="/WEB-INF/views/documentos_scaner.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty_footer.jsp" />   
     </definition>
     
-    <definition name="images_files" extends="base.definition"> 
+    <definition name="images_files" extends="base.definition">
+    	<put-attribute name="title" value="AOA" /> 
     	<put-attribute name="menu" value="/WEB-INF/views/layout/empty.jsp" />    	
         <put-attribute name="body" value="/WEB-INF/views/images_files.jsp" />
-        <put-attribute name="footer" value="/WEB-INF/views/layout/empty.jsp" />   
+        <put-attribute name="footer" value="/WEB-INF/views/layout/empty_footer.jsp" />   
     </definition>
   
 </tiles-definitions>  

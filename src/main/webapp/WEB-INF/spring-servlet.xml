@@ -49,7 +49,19 @@
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<beans:property name="url" value="jdbc:mysql://192.192.181.251/aoacol_aoacars?zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true" />				
 		<beans:property name="username" value="aoacol_arturo"/>
-		<beans:property name="password" value="AOA0l1lwpdaa"/>
+		<beans:property name="password" value="AOA0l1lwpdaa"/>		
+		
+		<!--  Extra Config  -->
+		
+		<beans:property name="initialSize" value="10" />
+		<beans:property name="maxActive" value="5" />
+		<beans:property name="maxWait" value="5000" />
+		
+		<beans:property name="validationQuery" value="SELECT 1" />
+     
+        <beans:property name="testOnBorrow" value="true" />
+        <beans:property name="removeAbandoned" value="true" />
+        <beans:property name="removeAbandonedTimeout" value="55" />
 		
 	</beans:bean>
 	
@@ -59,6 +71,18 @@
 		<beans:property name="url" value="jdbc:mysql://192.192.181.251/aoacol_administra?zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true" />				
 		<beans:property name="username" value="aoacol_arturo"/>
 		<beans:property name="password" value="AOA0l1lwpdaa"/>
+		
+		<!--  Extra Config  -->
+		
+		<beans:property name="initialSize" value="10" />
+		<beans:property name="maxActive" value="5" />
+		<beans:property name="maxWait" value="5000" />
+		
+		<beans:property name="validationQuery" value="SELECT 1" />
+     
+        <beans:property name="testOnBorrow" value="true" />
+        <beans:property name="removeAbandoned" value="true" />
+        <beans:property name="removeAbandonedTimeout" value="55" />
 		
 	</beans:bean>
 	

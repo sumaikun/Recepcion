@@ -162,6 +162,14 @@ public class Autorizacion {
 		this.consignacion_f = consignacion_f;
 	}
 	
+	public int getCongelamiento() {
+		return congelamiento;
+	}
+	public void setCongelamiento(int congelamiento) {
+		this.congelamiento = congelamiento;
+	}
+	
+	private int congelamiento;
 	private int Siniestro;
 	private String nombre;
 	private String identificacion;

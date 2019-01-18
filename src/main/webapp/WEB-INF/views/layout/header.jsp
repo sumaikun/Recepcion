@@ -1,5 +1,6 @@
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
  <!-- Navigation -->
  <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
      <div class="container">
@@ -22,43 +23,6 @@
                      <a href="#page-top"></a>
                  </li>
                  <li class="page-scroll">
-                 	<c:if test="${authenticated}">
-                     	<a href="/app/admin/panel">ADMINISTRADOR</a>
-                     </c:if>
-                     <!--  
-                 	<c:if test="${!authenticated}">
-                     	<!--<a href="#portfolio">Camara</a>-->
-                     	<!--<a href="/app/camera">Camara</a>
-                     </c:if>
-                     -->
-                 </li>
-                 <!--
-                 <li class="page-scroll">
-                 	<c:if test="${!authenticated}">
-                     	<!-- <a href="#about">Scanner</a> -->
-                     	<!--<a href="/app/scanner">Scanner</a>
-                    </c:if> 
-                 </li>
-                 <li class="page-scroll">
-                 	<c:if test="${!authenticated}">
-                     	<!-- <a href="#about">Scanner</a> -->
-                     	<!--<a href="/app/scanner2">Scanner2</a>
-                    </c:if> 
-                 </li>
-                 <li class="page-scroll">
-                     <c:if test="${!authenticated}">
-                     	<a href="#contact">Formularios</a>
-                     </c:if>	
-                 </li>
-                 <li class="page-scroll">                   
-					 <c:if test="${authenticated}">
-						<a href="<c:url value="/logout"/>">Logout</a>
-					</c:if>
-					
-					<c:if test="${!authenticated}">
-						<a href="/app/login">Login</a>
-					</c:if>
-                 </li>-->
              </ul>
          </div>
          <!-- /.navbar-collapse -->
@@ -68,5 +32,50 @@
 
  <!-- Header -->
  <header>
+     
     <br> <br>
  </header>
+ <script>
+	 var time = new Date().getTime();
+	 $(document.body).bind("mousemove keypress", function(e) {
+		 console.log("Move");
+	     time = new Date().getTime();
+	 });
+	
+	 function refresh() {
+	     if(new Date().getTime() - time >= 420000)
+	    	 window.location.href = "/app";
+	         //window.location.reload(true);
+	     else 
+	         setTimeout(refresh, 10000);
+	 }
+	
+	 setTimeout(refresh, 10000);
+ 	 
+	 
+	 $(window).resize(function() {
+	       if(screen.width == window.innerWidth){
+	           console.log("you are on normal page with 100% zoom");
+	       } else if(screen.width > window.innerWidth){
+	    	   //screen.width = window.innerWidth;
+	    	   console.log("you have zoomed in the page i.e more than 100%");
+	       } else {
+	    	   //screen.width = window.innerWidth;
+	    	   console.log("you have zoomed out i.e less than 100%")
+	       }
+    });
+	
+	 $(window).bind('mousewheel DOMMouseScroll', function (event) {
+	       if (event.ctrlKey == true) {
+	       event.preventDefault();
+	       }
+	});
+	 
+	 window.addEventListener('touchmove', ev => {		 
+		    ev.preventDefault();
+		    ev.stopImmediatePropagation();
+		 
+		}, { passive: false });
+	 
+	 
+</script>

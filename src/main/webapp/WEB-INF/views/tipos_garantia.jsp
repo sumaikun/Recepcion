@@ -38,11 +38,18 @@
     -moz-user-focus: ignore;
 	}
 	
+	html {
+	  height: 100%;
+	}
+	body {
+	  min-height: 100%;
+	}
+	
 </style>
 <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">  -->
 
 <script>
-    $(function(){
+    /*$(function(){
          // Find any date inputs and override their functionality
          if (navigator.userAgent.indexOf("Firefox") > 0) {
                 //alert("ff");
@@ -51,14 +58,23 @@
         	 
          
         
-    });
+    });*/
+    Array.prototype.contains = function(obj) {
+        var i = this.length;
+        while (i--) {
+            if (this[i] === obj) {
+                return true;
+            }
+        }
+        return false;
+    }
 </script>
 <br>
 <br>
 <header id="home">
 	 <div class="container">
          <div class="row">
-             <div class="col-lg-12">                 
+             <div class="col-lg-12" style="margin-top:20% !important;">                 
                  <div class="intro-text">                 	
                      <span class="name" ><font color="#424242">Tipos de garantia</font></span>
                  	 <hr class="star-light">                	 
@@ -66,13 +82,13 @@
              </div>
              <c:if test="${ valor_credito > 0 }">
              <div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-lg">Tarjeta de crédito</button></div>
-           	 </c:if>
-           	 <c:if test="${ valor_efectivo > 0 }">
+           	 </c:if>           	
+           	 <c:if test="${ valor_riesgo > 0 }">
+           	 	<div class="col-lg-4 col-md-4"><!--<button data-toggle="modal" data-target="#myModal3" class="btn btn-primary btn-lg">Todo riesgo no reembolsable</button>--></div>
+         	</c:if>
+         	 <c:if test="${ valor_efectivo > 0 }">
            	 	<div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal2" class="btn btn-primary btn-lg">Consignación en efectivo</button></div>
            	 </c:if>
-           	 <c:if test="${ valor_riesgo > 0 }">
-           	 	<div class="col-lg-4 col-md-4"><button data-toggle="modal" data-target="#myModal3" class="btn btn-primary btn-lg">Todo riesgo no reembolsable</button></div>
-         	</c:if>
          </div>
      </div>
 </header>
@@ -94,12 +110,7 @@
 		      <legend>Valor: $ ${valor_credito}</legend> 
 		      
 		      <input name="valor_credito"  type="hidden" value="${valor_credito}">
-		      <div class="form-group">
-		        <label class="col-sm-3 control-label" for="card-number">Numero de Tarjeta</label>
-		        <div class="col-sm-9">
-		          <input type="number" maxlength="16"  class="form-control num" name="numero_tarjeta" id="card-number" placeholder="Numero de tarjeta">
-		        </div>
-		      </div>
+		      
 		      <div class="form-group">
 		      	<label class="col-sm-3 control-label" for="card-number">Franquicia</label>
 		       	<div class="col-sm-9">
@@ -110,6 +121,12 @@
 						</c:forEach>
 		       		</select>
 		       	</div>
+		      </div>
+		      <div class="form-group">
+		        <label class="col-sm-3 control-label" for="card-number">Numero de Tarjeta</label>
+		        <div class="col-sm-9">
+		          <input type="text"   class="form-control numero_tarjeta num" name="numero_tarjeta" id="card-number" maxlength="16"  placeholder="Numero de tarjeta" >
+		        </div>		    
 		      </div> 	
 		      <div class="form-group">
 		      	<label class="col-sm-3 control-label" for="card-number">Banco</label>
@@ -233,7 +250,7 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
 		        <div class="col-sm-9">
-		          <input type="number" class="form-control num" name="comprobante_consignacion" id="card-holder-name" placeholder="Comprobante de consignación">
+		          <input type="text" class="form-control num" name="comprobante_consignacion" id="card-holder-name" placeholder="Comprobante de consignación">
 		        </div>
 		      </div>
 		      <div class="form-group">
@@ -277,7 +294,7 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Numero de comprobante de consignación</label>
 		        <div class="col-sm-9">
-		          <input type="number" class="form-control num" name="riesgo_consignacion" id="card-holder-name" placeholder="Comprobante de consignación">
+		          <input type="text" class="form-control num" name="riesgo_consignacion" id="card-holder-name" placeholder="Comprobante de consignación">
 		        </div>
 		      </div>
 		      <div class="form-group">
@@ -319,7 +336,7 @@
 		      <div class="form-group">
 		        <label class="col-sm-3 control-label" for="card-holder-name">Número de cuenta bancaria</label>
 		        <div class="col-sm-9">
-		          <input type="number" class="form-control num" name="devol_cuenta_bancaria" id="card-holder-name" placeholder="Número de cuenta sin separadores">
+		          <input type="text" class="form-control num" name="devol_cuenta_bancaria" id="card-holder-name" placeholder="Número de cuenta sin separadores">
 		        </div>
 		      </div>
 		      <div class="form-group">
@@ -327,7 +344,7 @@
 		        <div class="col-sm-9">
 		          <select name="devol_tipo_cuenta" class="form-control" id="tipo">
 		          	<option value="">Selecciona</option>
-		          	<option value="A">Ahoros</option>
+		          	<option value="A">Ahorros</option>
 		          	<option value="C">Corriente</option>
 	          	 </select>
 		        </div>
@@ -400,14 +417,14 @@ var tipo_garantia;
 
 $( document ).ready(function() {
 	 $('.keyboard').keyboard({
-			layout : 'spanish-qwerty',
+			layout : 'spanish-qwerty-min',
 			restrictInput : true, 
 			preventPaste : true,  
 			autoAccept : true
 		});
 
 	 $('.num').keyboard({
-		layout : 'num',
+		layout : 'only-numbers',
 		restrictInput : true, 
 		preventPaste : true,  
 		autoAccept : true
@@ -429,12 +446,12 @@ $( document ).ready(function() {
 	 $("#fecha2").attr("max", today);
 });
 
+
+
 $("#franquicia").change(function(){
-	if($("input[name='numero_tarjeta']").val().length == "" ){		
-		alert("Ingrese primero el numero de la tarjeta");
-		event.target.value = "";
-	}
-	else{
+	
+	if($("input[name='numero_tarjeta']").val().length != "" ){
+	
 		var num = $("input[name='numero_tarjeta']").val();
 		if(event.target.value == 1 & num[0] !=4)
 		{
@@ -453,13 +470,50 @@ $("#franquicia").change(function(){
 			event.target.value = "";
 		}
 		//alert(num[0]);
-		//alert(event.target.value);	
+		//alert(event.target.value);		
 	}
 	
 });
 
 $("input[name='numero_tarjeta']").change(function(){
-	$("#franquicia").val("");
+	var num = $("input[name='numero_tarjeta']").val();
+	if(num != "")
+	{
+		if($("#franquicia").val() == 1 & num[0] !=4)
+		{
+			alert("El numero de la tarjeta no corresponde a la franquicia");			
+			$("input[name='numero_tarjeta']").val("");
+		}
+		if($("#franquicia").val() == 2 & num[0] !=5)
+		{
+			alert("El numero de la tarjeta no corresponde a la franquicia");
+			$("input[name='numero_tarjeta']").val("");
+		}
+		
+		if(($("#franquicia").val() == 3 || $("#franquicia").val() == 4) & num[0] !=3)
+		{
+			alert("El numero de la tarjeta no corresponde a la franquicia");
+			$("input[name='numero_tarjeta']").val("");
+		}	
+	}
+
+});
+
+$("input[name='numero_tarjeta']").click(function(){
+	
+	$(".ui-keyboard").hide();
+	
+	if($("#franquicia").val() == "")
+	{		
+		alert("Selecciona primero la franquicia");
+	}
+	else
+	{
+		$(".ui-keyboard").show();
+		
+	}
+	
+	 
 });
 
 function devoluciones(tipo)
@@ -485,16 +539,55 @@ function devoluciones(tipo)
 			return false;
 		}
 		
-		if($("input[name='numero_tarjeta']").val().length != 16 )
+		if($("select[name='franquicia']").val() == "")
 		{
-			console.log($("input[name='numero_tarjeta']").val().length);
+			alert("Seleccione la franquicia de la tarjeta de credito");
+			return false;
+		}
+		
+		if($("input[name='numero_tarjeta']").val().length < 15)
+		{
+			alert("El numero de la tarjeta debe tener mas dígitos");
+			return false;
+		}
+		
+		if($("input[name='numero_tarjeta']").val().length > 16)
+		{
+			alert("El número de tarjeta no puede tener mas de 16 dígitos");
+			return false;
+		}
+		
+		if($("input[name='numero_tarjeta']").val().length < 16 && [1,2].contains(parseInt($("select[name='franquicia']").val()))   )
+		{
+			//console.log($("input[name='numero_tarjeta']").val().length);
 			alert("El numero de la tarjeta no debe ser mayor o menor de 16 dígitos");
 			return false;
-		}		
+		}
 		
-		if($("input[name='cvv']").val().length != 3)
+		if($("input[name='numero_tarjeta']").val().length < 15 && [3,4].contains(parseInt($("select[name='franquicia']").val())))
+		{
+			//console.log($("input[name='numero_tarjeta']").val().length);
+			alert("El numero de la tarjeta para esta franquisía debe tener al menos 15 dígitos");
+			return false;
+		}
+		
+		if($("input[name='cvv']").val().length < 3 )
+		{
+			alert("El cvv debe tener al menos tres dígitos");
+			return false;
+		}
+		
+		var selected_franq = $("select[name='franquicia']").val();		
+		
+		if($("input[name='cvv']").val().length != 3 && [1,2].contains(parseInt($("select[name='franquicia']").val())))
 		{
 			alert("El cvv debe tener tres dígitos");
+			return false;
+		}
+		
+		if($("input[name='cvv']").val().length < 3 && [3,4].contains(parseInt($("select[name='franquicia']").val())))
+		{
+			alert("El cvv puede contener hasta cuatro dígitos");
 			return false;
 		}
 		
@@ -504,11 +597,7 @@ function devoluciones(tipo)
 			return false;
 		}
 		
-		if($("select[name='franquicia']").val() == "")
-		{
-			alert("Seleccione la franquicia de la tarjeta de credito");
-			return false;
-		}
+		
 		
 		if($("select[name='year_expi']").val() == "")
 		{
@@ -522,7 +611,24 @@ function devoluciones(tipo)
 			return false;
 		}		
 		
-		$("#myModal").modal('hide');
+		 $.post("garantia_credito",{
+			 "${_csrf.parameterName}":"${_csrf.token}",
+			 numero_tarjeta:$("input[name='numero_tarjeta']").val(),
+			 banco:$("select[name='banco']").val(),
+			 franquicia:$("select[name='franquicia']").val(),
+			 month_expi:$("select[name='month_expi']").val(),
+			 year_expi:$("select[name='year_expi']").val(),
+			 cvv:$("input[name='cvv']").val(),
+			 devol_tipo_cuenta:$("select[name='devol_tipo_cuenta']").val(),
+			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
+			 devol_banco:$("select[name='devol_banco']").val(),
+			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
+			 valor_congelamiento:$("input[name='valor_credito']").val()
+			 }, function(res, sta){
+			 console.log(res);
+			 window.location.href = 'DocumentosScaner';  
+		 });
 	}
 	if(tipo == "efectivo")
 	{
@@ -535,6 +641,8 @@ function devoluciones(tipo)
 			return false;
 		}
 		$("#myModal2").modal('hide');
+		$("#myModal4").modal('show');
+		tipo_garantia = tipo;
 	}
 	if(tipo == "riesgo")
 	{
@@ -547,11 +655,25 @@ function devoluciones(tipo)
 			return false;
 		}	
 		//alert("cerrar el tercer modal");
-		$("#myModal3").modal('hide');		
+		$("#myModal3").modal('hide');
+		
+		 $.post("garantia_riesgo",{
+			 "${_csrf.parameterName}":"${_csrf.token}",
+			 comprobante_consignacion:$("input[name='riesgo_consignacion']").val(),
+			 fecha_consignacion:$("input[name='riesgo_fecha']").val(),
+			 devol_tipo_cuenta:$("select[name='devol_tipo_cuenta']").val(),
+			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
+			 devol_banco:$("select[name='devol_banco']").val(),
+			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
+			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
+			 valor:$("input[name='riesgo_valor']").val()
+			 }, function(res, sta){
+			 console.log(res);
+			 window.location.href = 'DocumentosScaner';
+		 });
 		
 	}
-	$("#myModal4").modal('show');
-	tipo_garantia = tipo;
+	
 	return true;
 }
 
@@ -593,27 +715,7 @@ function finish_finan_data()
 		return false;
 	}
 	
-	if(tipo_garantia == "credito")
-	{
-		 $.post("garantia_credito",{
-			 "${_csrf.parameterName}":"${_csrf.token}",
-			 numero_tarjeta:$("input[name='numero_tarjeta']").val(),
-			 banco:$("select[name='banco']").val(),
-			 franquicia:$("select[name='franquicia']").val(),
-			 month_expi:$("select[name='month_expi']").val(),
-			 year_expi:$("select[name='year_expi']").val(),
-			 cvv:$("input[name='cvv']").val(),
-			 devol_tipo_cuenta:$("select[name='devol_tipo_cuenta']").val(),
-			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
-			 devol_banco:$("select[name='devol_banco']").val(),
-			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
-			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
-			 valor_congelamiento:$("input[name='valor_credito']").val()
-			 }, function(res, sta){
-			 console.log(res);
-			 window.location.href = 'DocumentosScaner';  
-		 });
-	}
+	
 	
 	if(tipo_garantia == "efectivo")
 	{			
@@ -633,24 +735,6 @@ function finish_finan_data()
 		 });
 	}
 	
-	if(tipo_garantia == "riesgo")
-	{		
-		
-		
-		 $.post("garantia_riesgo",{
-			 "${_csrf.parameterName}":"${_csrf.token}",
-			 comprobante_consignacion:$("input[name='riesgo_consignacion']").val(),
-			 fecha_consignacion:$("input[name='riesgo_fecha']").val(),
-			 devol_tipo_cuenta:$("select[name='devol_tipo_cuenta']").val(),
-			 devol_cuenta_bancaria:$("input[name='devol_cuenta_bancaria']").val(),
-			 devol_banco:$("select[name='devol_banco']").val(),
-			 devol_nombre_titular:$("input[name='devol_nombre_titular']").val(),
-			 devol_iden_titular:$("input[name='devol_iden_titular']").val(),
-			 valor:$("input[name='riesgo_valor']").val()
-			 }, function(res, sta){
-			 console.log(res);
-			 window.location.href = 'DocumentosScaner';
-		 });
-	}
+	
 }
 </script>

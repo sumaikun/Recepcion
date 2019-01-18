@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />  
+    
+    <link rel="shortcut icon" type="image/png" href="http://www.aoacolombia.com/favicon.ico"/>
     <link rel='stylesheet' href="<c:url value= "/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />" rel="stylesheet">
      <!-- Theme CSS -->
     <link href="<c:url value="/resources/theme1/css/freelancer.min.css"/> " rel="stylesheet">
@@ -18,7 +20,8 @@
   integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
   crossorigin="anonymous"></script>
   <LINK href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet" type="text/css"> 
-    
+ 
+    <script type="text/javascript" src="<c:url value="/resources/theme1/js/copy_css.js"/>" ></script>
     
     <!--  Keyboard  -->
     

@@ -91,10 +91,34 @@ public class SiniestrosController {
 			session.setAttribute("foto_paseA", s.getAdicional1_f());
 			session.setAttribute("foto_paseB", s.getAdicional2_f());			
 			session.setAttribute("no_garantia", s.getNo_garantia());
+			session.setAttribute("Tarh_frontal", s.getAdicional3_f());			
+			session.setAttribute("Tarh_trasera", s.getAdicional4_f());
 			
 			System.out.println("id del siniestro "+s.getId());
-			if(s.getEstado() == 3)
+			
+			Object sin_auto = this.autorizacionService.get_by_siniester(String.valueOf(s.getId()));
+			
+			/*if(sin_auto!= null)
 			{
+				System.out.println("Ya tiene autorizacion");
+				Autorizacion Au = (Autorizacion) sin_auto;
+				String estado = Au.getEstado();	
+				System.out.println("Estado de la autorizacion "+Au.getEstado());
+				if(estado.equals("E"))
+				{
+					ModelAndView mv = new ModelAndView();
+					mv.setViewName("resultados_volver");
+					mv.addObject("process", "fail");
+					mv.addObject("prevurl", "home");
+					mv.addObject("message", "Ya tiene una autorización en espera, ¡Por favor diríjase a autorizaciones!");
+					return mv;
+				}
+				
+			}*/		
+			
+			
+			if(s.getEstado() == 3)
+			{				
 				Citas c = this.citasService.cita_arribo(s.getId());				
 				
 				if(c == null)
@@ -155,7 +179,18 @@ public class SiniestrosController {
 					b.setAccion("M");
 					b.setRegistro(c.getId());
 					InetAddress IP=InetAddress.getLocalHost();
-					b.setIp(IP.toString());
+					
+					String current_ip;
+					if (IP.toString().length() > 20)
+					{
+						current_ip = IP.toString().substring(0, 19);
+					}
+					else
+					{
+						 current_ip = IP.toString();
+					}
+					    
+					b.setIp(current_ip);
 					b.setDetalle("Marca arribo asegurado"); 
 					this.bitacoraService.create(b);			
 				}				
@@ -189,6 +224,8 @@ public class SiniestrosController {
 				process = "fail";
 				message = "La placa "+placa+" se encuentra en servicio concluido no requiere datos de garantia";
 			}
+			
+			
 			
 		}
 		else {

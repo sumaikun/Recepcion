@@ -16,6 +16,8 @@ function add_image_to_form(imageid,value)
    <input type="hidden" name="imagend" id="imagend">
    <input type="hidden" name="imagene" id="imagene">
    <input type="hidden" name="imagenf" id="imagenf">
+   <input type="hidden" name="imagenf" id="imageng">
+   <input type="hidden" name="imagenf" id="imagenh">
  
   <style>
 	#home{
@@ -45,44 +47,45 @@ function add_image_to_form(imageid,value)
                  </div>
              </div>
              <div class="row" >             	
-	             	<div class="col-lg-4 col-md-4 " id="cedulaA"><img onload="add_image_to_form('imagena',2)"  src="http://app.aoacolombia.com/Control/operativo/${foto_cedulaA}" alt="Smiley face" height="300" width="300"></div>
-	             	<div class="col-lg-4 col-md-4 " id="cedulaB"><img  onload="add_image_to_form('imagenb',2)" src="http://app.aoacolombia.com/Control/operativo/${foto_cedulaB}" alt="Smiley face" height="300" width="300"></div>
-	           	 	<div class="col-lg-4 col-md-4 " id="LicenciaA"><img  onload="add_image_to_form('imagenc',2)" src="http://app.aoacolombia.com/Control/operativo/${foto_paseA}" alt="Smiley face" height="300" width="300"></div>         	 	
+	             	<div class="col-lg-3 col-md-3 " id="cedulaA"><img onload="add_image_to_form('imagena',2)"  src="http://app.aoacolombia.com/Control/operativo/${foto_cedulaA}" alt="aoa" height="300" width="300"></div>
+	             	<div class="col-lg-3 col-md-3 " id="cedulaB"><img  onload="add_image_to_form('imagenb',2)" src="http://app.aoacolombia.com/Control/operativo/${foto_cedulaB}" alt="aoa" height="300" width="300"></div>
+	           	 	<div class="col-lg-3 col-md-3 " id="LicenciaA"><img  onload="add_image_to_form('imagenc',2)" src="http://app.aoacolombia.com/Control/operativo/${foto_paseA}" alt="aoa" height="300" width="300"></div>         	 	
+         	 		<div class="col-lg-3 col-md-3 " id="LicenciaB"><img onload="add_image_to_form('imagend',2)" src="http://app.aoacolombia.com/Control/operativo/${foto_paseB}"  alt="aoa" height="300" width="300"></div>
          	 </div>	
          	 
              <div class="row" >
              	 
-	             	<div class="col-lg-4 col-md-4"><a href="CedulaCaraA:"><button onmouseover="beginsearch()" class="btn btn-primary btn-lg">Cedula parte adelante</button></a></div>	           	 
-	           	 	<div class="col-lg-4 col-md-4"><a href="CedulaCaraB:"><button onmouseover="beginsearch2()" class="btn btn-primary btn-lg">Cedula respaldo</button></a></div>
-	           	 	<div class="col-lg-4 col-md-4"><a href="LicenciaCaraA:"><button onmouseover="beginsearch3()"  class="btn btn-primary btn-lg">Licencia conducir parte adelante</button></a></div>
-         	 	
+	             	<div class="col-lg-3 col-md-3"><a href="CedulaCaraA:"><button onclick="beginsearch()" class="btn btn-primary btn-lg">Cedula parte adelante</button></a></div>	           	 
+	           	 	<div class="col-lg-3 col-md-3"><a href="CedulaCaraB:"><button onclick="beginsearch2()" class="btn btn-primary btn-lg">Cedula respaldo</button></a></div>
+	           	 	<div class="col-lg-3 col-md-3"><a href="LicenciaCaraA:"><button onclick="beginsearch3()"  class="btn btn-primary btn-lg">Licencia conducir parte adelante</button></a></div>
+         	 		<div class="col-lg-3 col-md-3"><a href="LicenciaCaraB:"><button onclick="beginsearch4()" class="btn btn-primary btn-lg">Licencia de conducir respaldo</button></a></div>
          	 </div>
          	 <br>
          	 <div class="row" >
-	             
-	             	<div class="col-lg-4 col-md-4 " id="LicenciaB"><img onload="add_image_to_form('imagend',2)" src="http://app.aoacolombia.com/Control/operativo/${foto_paseB}"  alt="Smiley face" height="300" width="300"></div>	           	 
-         	 	 	         	 	 	
-         	 	 	<c:if test="${ img_credito != null }">         	 	 	
-         	 	 	<div class="col-lg-4 col-md-4 " id="Tcredito"><img  alt="Smiley face" height="300" width="300"></div>	              	
-	              	</c:if>
-	              	
-	              	<c:if test="${ img_consignacion != null }">
-	              	<div class="col-lg-4 col-md-4 " id="Consignacion"><img onload="add_image_to_form('imagenf',2)"  src="http://app.aoacolombia.com/Control/operativo/${consignacion_img}"  alt="Smiley face" height="300" width="300"></div>
+         	 		<c:if test="${ active_tarh == 1 }">         	 	 	
+         	 	 		<div class="col-lg-3 col-md-3 " id="Tarh_frontal"><img onload="add_image_to_form('imageng',2)" src="http://app.aoacolombia.com/Control/operativo/${Tarh_frontal}" alt="aoa" height="300" width="300"></div>	              	
+	              		<div class="col-lg-3 col-md-3 " id="Tarh_trasera"><img onload="add_image_to_form('imagenh',2)" src="http://app.aoacolombia.com/Control/operativo/${Tarh_trasera}" alt="aoa" height="300" width="300"></div> 
+	              	</c:if>      	 	 	         	 	 	
+         	 	 	<c:if test="${ img_credito == 1 }">         	 	 	
+         	 	 		<div class="col-lg-3 col-md-3 " id="Tcredito"><img  alt="aoa" height="300" width="300"></div>	              	
+	              	</c:if>	              	
+	              	<c:if test="${ img_consignacion == 1 }">
+	              		<div class="col-lg-3 col-md-3 " id="Consignacion"><img onload="add_image_to_form('imagenf',2)"  src="http://app.aoacolombia.com/Control/operativo/${consignacion_img}"  alt="aoa" height="300" width="300"></div>
 	             	</c:if>
          	 </div>	
          	 
              <div class="row" >
-	              
-	             	<div class="col-lg-4 col-md-4"><a href="LicenciaCaraB:"><button onmouseover="beginsearch4()" class="btn btn-primary btn-lg">Licencia de conducir respaldo</button></a></div>	              	
-	              	
-	              	<c:if test="${ img_credito != null }">
-	              	
-	              	<div class="col-lg-4 col-md-4"><a href="TarjetaCredito:"><button onmouseover="beginsearch5()" class="btn btn-primary btn-lg">Tarjeta de credito (frontal)</button></a></div>
-	              	
+             		<c:if test="${ active_tarh == 1 }">         	 	 	
+         	 	 		<div class="col-lg-3 col-md-3 "><a href="Tarhfrontal:"><button onclick="beginsearch7()" class="btn btn-primary btn-lg">Cedula tarjetahaviente (frontal)</button></a>
+         	 	 		</div>	              	
+	              		<div class="col-lg-3 col-md-3 "><a href="Tarhtrasera:"><button onclick="beginsearch8()" class="btn btn-primary btn-lg">Cedula tarjetahaviente (trasera)</button></a>
+	              		</div>
+	              	</c:if>          	
+	              	<c:if test="${ img_credito == 1 }">	              	
+	              	<div class="col-lg-3 col-md-3"><a href="TarjetaCredito:"><button onclick="beginsearch5()" class="btn btn-primary btn-lg">Tarjeta de credito (frontal)</button></a></div>	              	
 	              	</c:if>	              	
-	              	
-	              	<c:if test="${ img_consignacion != null }">
-	              	<div class="col-lg-4 col-md-4"><a href="Consignacion:"><button onmouseover="beginsearch6()" class="btn btn-primary btn-lg">Consignación realizada</button></a></div>
+	              	<c:if test="${ img_consignacion == 1 }">
+	              	<div class="col-lg-3 col-md-3"><a href="Consignacion:"><button onclick="beginsearch6()" class="btn btn-primary btn-lg">Consignación realizada</button></a></div>
 	              	</c:if>           	 
          	 </div>
          	 	
@@ -93,7 +96,7 @@ function add_image_to_form(imageid,value)
          <button onclick="move_images_service()" style="height:200%; !important" class="btn btn-lg form-control btn-success">Enviar Imagenes</button>
          <br>
          <br>
-         <button style="height:200%; !important" onclick="finish_process()" class="btn btn-lg form-control btn-danger">Terminar</button>
+         <!--<button style="height:200%; !important" onclick="finish_process()" class="btn btn-lg form-control btn-danger">Terminar</button>-->
      </div>
 </header>
   
@@ -107,81 +110,106 @@ function add_image_to_form(imageid,value)
 		});
 	});
 
-	var n = 0;
+	var a = 0;
 	
-	var z = 0;
-	
-	var x = 0;
+	var b = 0;
 	
 	var c = 0;
 	
-	var v = 0;
+	var d = 0;
 	
-	var b = 0;
+	var e = 0;
+	
+	var f = 0;
+	
+	var g = 0;
+	
+	var h = 0;
 	
 	var get64 = "";
 
 	window.setInterval(function(){
-		if(n!=0)
+		if(a!=0)
 		{
 			imagen_a();
 		}
-		if(z!=0)
+		if(b!=0)
 		{
 			imagen_b();
 		}
-		if(x!=0)
+		if(c!=0)
 		{
 			imagen_c();
 		}
-		if(c!=0)
+		if(d!=0)
 		{
 			imagen_d();
 		}
-		if(v!=0)
-		{
-			imagen_f();
-		}
-		if(b!=0)
+		if(e!=0)
 		{
 			imagen_e();
 		}
-	}, 5000);
+		if(f!=0)
+		{
+			imagen_f();
+		}
+		if(g!=0)
+		{
+			imagen_g();
+		}
+		if(h!=0)
+		{
+			imagen_h();
+		}
+		
+	}, 10000);
 	
 	function beginsearch()
 	{
 		console.log("in");
-		n=1;
+		a=1;
 	}
 	
 	function beginsearch2()
 	{
 		console.log("in");
-		z=1;
+		b=1;
 	}
 	
 	function beginsearch3()
 	{
 		console.log("in");
-		x=1;
+		c=1;
 	}
 	
 	function beginsearch4()
 	{
 		console.log("in");
-		c=1;
+		d=1;
 	}
 	
 	function beginsearch5()
 	{
 		console.log("in");
-		b=1;
+		e=1;
 	}
 	
 	function beginsearch6()
 	{
 		console.log("in");
-		v=1;
+		f=1;
+	}
+	
+	function beginsearch7()
+	{
+		console.log("in");
+		g=1;
+	}
+	
+	function beginsearch8()
+	{
+		console.log("in");
+		h=1;
 	}
     
 	method = "server";
@@ -199,11 +227,11 @@ function add_image_to_form(imageid,value)
 	        Ipprivate = myIP;
 	        pc.onicecandidate = noop;
 	    };
-	    alert(Ipprivate);
+	    //alert(Ipprivate);
 	}
 	else{
 		Ipprivate = "${Privateip}";		
-		alert(Ipprivate);
+		//alert(Ipprivate);
 	}
 	
 	
@@ -216,7 +244,8 @@ function add_image_to_form(imageid,value)
 		.attr('onerror',"add_image_to_form('imagena',0)")
 	    .on('load', function() {
 	        if (!this.complete) {
-	            alert('broken image!');	            
+	            alert('broken image!');
+	            return "";
 	            //console.log("no found");
 	        } else {
 	        	//console.log("found");
@@ -363,6 +392,56 @@ function add_image_to_form(imageid,value)
 	        }
 	    });		
 	}
+	
+	function imagen_g()
+	{		
+		var url = 'http://app.aoacolombia.com/Administrativo/images_java/'+Ipprivate+'/Tarh_frontal.png?' + new Date().getTime();
+		var img = $("<img />").attr('src',url)
+		.attr('id',"testimage")		
+	    .attr('onerror',"add_image_to_form('imageng',0)")
+		.on('load', function() {
+	        if (!this.complete) {
+	            alert('broken image!');
+	    
+	        } else {
+	        	add_image_to_form("imageng",1);
+	        	img.width(300).height(300);
+	        	$("#Tarh_frontal").empty();
+	            $("#Tarh_frontal").append(img);
+	            var  img_validation  = try_miracle("Tarh_frontal.png");
+	            if(img_validation == "diferentes")
+            	{	            	
+	            	img.width(300).height(300);
+		            $("#Tarh_frontal").append(img);
+            	}
+	        }
+	    });		
+	}
+	
+	function imagen_h()
+	{		
+		var url = 'http://app.aoacolombia.com/Administrativo/images_java/'+Ipprivate+'/Tarh_trasera.png?' + new Date().getTime();
+		var img = $("<img />").attr('src',url)
+		.attr('id',"testimage")		
+	    .attr('onerror',"add_image_to_form('imagenh',0)")
+		.on('load', function() {
+	        if (!this.complete) {
+	            alert('broken image!');
+	    
+	        } else {
+	        	add_image_to_form("imagenh",1);
+	        	img.width(300).height(300);
+	        	$("#Tarh_trasera").empty();
+	            $("#Tarh_trasera").append(img);
+	            var  img_validation  = try_miracle("Tarh_trasera.png");
+	            if(img_validation == "diferentes")
+            	{	            	
+	            	img.width(300).height(300);
+		            $("#Tarh_frontal").append(img);
+            	}
+	        }
+	    });		
+	}
 
 	
 	function try_miracle(Fname)
@@ -401,7 +480,9 @@ function add_image_to_form(imageid,value)
 			     imagenc:$("#imagenc").val(),
 			     imagend:$("#imagend").val(),
 			     imagene:$("#imagene").val(),
-			     imagenf:$("#imagenf").val()},
+			     imagenf:$("#imagenf").val(),
+			     imageng:$("#imageng").val(),
+			     imagenh:$("#imagenh").val()},
 				function(res, sta){
 			     	 if($("#imagena").val() == ""){
 			    		return alert("Falta la imagen de la cedula frontal");
@@ -416,16 +497,26 @@ function add_image_to_form(imageid,value)
 			    		 return alert("Falta la imagen de la licencia de conducir respaldo");
 			    	 }
 			    	 
-			    	 <c:if test="${ img_consignacion != null }">
-				    	 if($("#imagenf").val() == ""){
-				    	 return	 alert("Falta la imagen de la consignación");
-				    	 }
-		    	 	 </c:if>
+			    	 <!--<c:if test="${ img_consignacion == 1 }">-->
+				    	 //if($("#imagenf").val() == ""){
+				    	 //return	 alert("Falta la imagen de la consignación");
+				    	 //}
+		    	 	 <!--</c:if>-->
 		    	 	
-		    	 	<c:if test="${ img_credito != null }">
+		    	 	<c:if test="${ img_credito == 1 }">
 		    	 		if($("#imagene").val() == ""){
-				    	 return	 alert("Falta la imagen de la tarjeta");
+				    	 	return	 alert("Falta la imagen de la tarjeta");
 				    	 }
+		    	 	</c:if>
+		    	 	
+		    	 	
+		    	 	<c:if test="${ active_tarh == 1 }">
+		    	 	if($("#imageng").val() == ""){
+			    	 	return	 alert("Falta la imagen frontal de la cedula del tarjetahaviente");
+			    	 }
+		    	 	if($("#imagenh").val() == ""){
+			    	 	return	 alert("Falta la imagen trasera de la cedula del tarjetahaviente");
+			    	 }
 		    	 	</c:if>
 		    	 	 
 		    	 	return finish_process_success();

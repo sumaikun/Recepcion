@@ -47,6 +47,13 @@
 	    float: none !important;
 	}
 	
+	html {
+	  height: 100%;
+	}
+	body {
+	  min-height: 100%;
+	}
+	
 </style>
  
 
@@ -55,7 +62,7 @@
 <header id="home">
 	 <div class="container">
          <div class="row">
-             <div class="col-lg-12">                 
+             <div class="col-lg-12" >                 
                  <div class="intro-text">
                  	<c:url var="addAction" value="BeginProcess.html" ></c:url>
                  	<form:form action="${addAction}" method="POST">
@@ -84,14 +91,14 @@
 	 //$('html,body').animate({ scrollTop: 5555 }, 'slow');
 	 
 	 $('#keyboard').keyboard({
-			layout : 'spanish-qwerty',
+			layout : 'spanish-qwerty-min',
 			restrictInput : true, 
 			preventPaste : true,  
 			autoAccept : true
 		});
 
 	 $('#num').keyboard({
-		layout : 'num',
+		layout : 'only-numbers',
 		restrictInput : true, 
 		preventPaste : true,  
 		autoAccept : true
